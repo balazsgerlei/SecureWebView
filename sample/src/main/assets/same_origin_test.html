@@ -1,0 +1,23 @@
+<!-- Copyright 2018 Google LLC.
+SPDX-License-Identifier: Apache-2.0 -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Same-origin policy demo</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <h1 id="fetch-status"></h1>
+    <script>
+      const status = document.getElementById('fetch-status');
+      
+      fetch('https://www.google.com')
+        .then(response => {
+          status.innerText = response.status;
+        })
+        .catch(error => {
+          status.innerText = error;
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/group1"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/breakout"
+            android:icon="@drawable/ic_breakout"
+            android:title="@string/breakout"
+            android:checked="true" />
+        <item
+            android:id="@+id/cleartexttraffic"
+            android:icon="@drawable/ic_http"
+            android:title="@string/clear_text_traffic"
+            android:checked="true" />
+        <item
+            android:id="@+id/file_access"
+            android:icon="@drawable/ic_file"
+            android:title="@string/file_access" />
+        <item
+            android:id="@+id/content_provider_access"
+            android:icon="@drawable/ic_inventory"
+            android:title="@string/content_provider_access" />
+        <item
+            android:id="@+id/opaque_origin"
+            android:icon="@drawable/ic_hide_source"
+            android:title="@string/opaque_origin" />
+        <item
+            android:id="@+id/javascript_injection"
+            android:icon="@drawable/ic_inject"
+            android:title="@string/javascript_injection" />
+    </group>
+
+</menu>
