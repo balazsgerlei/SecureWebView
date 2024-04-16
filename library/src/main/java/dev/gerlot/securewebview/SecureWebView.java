@@ -168,26 +168,6 @@ public class SecureWebView extends FrameLayout {
             }
         }
 
-        private boolean shouldBlockRequest(final Uri uri) {
-            if ("http".equals(uri.getScheme())) {
-                return true;
-            }
-
-            final boolean allowedByAllowedHostList = allowedHosts == null || allowedHosts.contains(uri.getHost());
-            if (!allowedByAllowedHostList) {
-                return true;
-            }
-
-            if (disallowedUrls != null) {
-                for (final DisallowedUrl disallowedUrl : disallowedUrls) {
-                    if (disallowedUrl.matchesUri(uri)) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
     }
 
     public SecureWebView(Context context) {
@@ -209,6 +189,26 @@ public class SecureWebView extends FrameLayout {
         this.webView.setWebViewClient(new SecureWebViewClient());
     }
 
+    private boolean shouldBlockRequest(final Uri uri) {
+        if ("http".equals(uri.getScheme())) {
+            return true;
+        }
+
+        final boolean allowedByAllowedHostList = allowedHosts == null || allowedHosts.contains(uri.getHost());
+        if (!allowedByAllowedHostList) {
+            return true;
+        }
+
+        if (disallowedUrls != null) {
+            for (final DisallowedUrl disallowedUrl : disallowedUrls) {
+                if (disallowedUrl.matchesUri(uri)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public void setWebViewClient(WebViewClient client) {
         webViewClient = client;
     }
@@ -218,7 +218,11 @@ public class SecureWebView extends FrameLayout {
     }
 
     public void loadUrl(String url) {
-        webView.loadUrl(StringEscapeUtils.escapeEcmaScript(url));
+        if (shouldBlockRequest(Uri.parse(url))) {
+            return;
+        }
+        final String urlToLoad = StringEscapeUtils.escapeEcmaScript(url);
+        webView.loadUrl(urlToLoad);
     }
 
     public void loadUrlWithoutEscapingJavascript(String url) {
