@@ -60,6 +60,7 @@ class ContentProviderAccessFragment: Fragment(), SecurableWebViewFragment {
 
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 currentUrl = url
+                view ?: return
                 binding.urlInput.setText(url)
             }
 
