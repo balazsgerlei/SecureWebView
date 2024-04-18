@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FF000000</color>
-    <color name="purple_500">#FF000000</color>
-    <color name="purple_700">#FF000000</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
@@ -12,4 +9,8 @@
     <color name="mid_grey">#C3C3C3</color>
     <color name="dark_grey">#979696</color>
     <color name="darker_grey">#979696</color>
+    <color name="light_green">#9FC6A1</color>
+    <color name="lighter_green">#4caf50</color>
+    <color name="mid_green">#087f23</color>
+    <color name="darker_green">#004d40</color>
 </resources>
