@@ -86,22 +86,26 @@ public class SecureWebView extends FrameLayout {
             switch (matchVariant) {
                 case FULL_URI -> { return this.uri.equals(uri); }
                 case AUTHORITY, AUTHORITY_WITHOUT_WWW -> {
-                    final String disallowedAuthority = matchVariant == MatchVariant.AUTHORITY_WITHOUT_WWW ? this.uri.getAuthority().replace("www.", "") : this.uri.getAuthority();
-                    final String authorityToMatch = matchVariant == MatchVariant.AUTHORITY_WITHOUT_WWW ? uri.getAuthority().replace("www.", "") : uri.getAuthority();
-                    return disallowedAuthority.equals(authorityToMatch);
+                    final String disallowedAuthority = matchVariant == MatchVariant.AUTHORITY_WITHOUT_WWW ? trimAuthority(this.uri.getAuthority()) : this.uri.getAuthority();
+                    final String authorityToMatch = matchVariant == MatchVariant.AUTHORITY_WITHOUT_WWW ? trimAuthority(uri.getAuthority()) : uri.getAuthority();
+                    return disallowedAuthority != null && disallowedAuthority.equals(authorityToMatch);
                 }
                 case AUTHORITY_AND_PATH, AUTHORITY_WITHOUT_WWW_AND_PATH -> {
-                    final String disallowedAuthority = matchVariant == MatchVariant.AUTHORITY_WITHOUT_WWW_AND_PATH ? this.uri.getAuthority().replace("www.", "") : this.uri.getAuthority();
-                    final String authorityToMatch = matchVariant == MatchVariant.AUTHORITY_WITHOUT_WWW_AND_PATH ? uri.getAuthority().replace("www.", "") : uri.getAuthority();
-                    final boolean authoritiesEqual = disallowedAuthority.equals(authorityToMatch);
+                    final String disallowedAuthority = matchVariant == MatchVariant.AUTHORITY_WITHOUT_WWW_AND_PATH ? trimAuthority(this.uri.getAuthority()) : this.uri.getAuthority();
+                    final String authorityToMatch = matchVariant == MatchVariant.AUTHORITY_WITHOUT_WWW_AND_PATH ? trimAuthority(uri.getAuthority()) : uri.getAuthority();
+                    final boolean authoritiesEqual = disallowedAuthority != null && disallowedAuthority.equals(authorityToMatch);
                     final boolean pathEqual = this.uri.getPath() != null && this.uri.getPath().equals(uri.getPath());
                     return authoritiesEqual && (pathEqual || (this.uri.getPath() == null && uri.getPath() == null));
                 }
-                case AUTHORITY_CONTAIN -> { return uri.getAuthority().contains(this.uri.getAuthority()); }
-                case HOST -> { return this.uri.getHost().equals(uri.getHost());  }
+                case AUTHORITY_CONTAIN -> { return uri.getAuthority() != null && this.uri.getAuthority() != null && uri.getAuthority().contains(this.uri.getAuthority()); }
+                case HOST -> { return this.uri.getHost() != null && this.uri.getHost().equals(this.uri.getHost()); }
                 case BEGINNING -> { return uri.toString().startsWith(this.uri.toString());  }
                 default -> { return false; }
             }
+        }
+
+        private String trimAuthority(String authority) {
+            return authority != null ? authority.replace("www.", "") : null;
         }
 
     }
