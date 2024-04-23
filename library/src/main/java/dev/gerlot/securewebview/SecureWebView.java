@@ -98,7 +98,7 @@ public class SecureWebView extends FrameLayout {
                     return authoritiesEqual && (pathEqual || (this.uri.getPath() == null && uri.getPath() == null));
                 }
                 case AUTHORITY_CONTAIN -> { return uri.getAuthority() != null && this.uri.getAuthority() != null && uri.getAuthority().contains(this.uri.getAuthority()); }
-                case HOST -> { return this.uri.getHost() != null && this.uri.getHost().equals(this.uri.getHost()); }
+                case HOST -> { return uri.getHost() != null && uri.getHost().equals(this.uri.getHost()); }
                 case BEGINNING -> { return uri.toString().startsWith(this.uri.toString());  }
                 default -> { return false; }
             }
