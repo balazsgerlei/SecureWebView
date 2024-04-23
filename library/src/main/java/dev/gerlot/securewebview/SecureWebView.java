@@ -56,6 +56,7 @@ public class SecureWebView extends FrameLayout {
         disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("duckduckgo.com").build(), MatchVariant.AUTHORITY_CONTAIN));
         disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("ecosia.org").build(), MatchVariant.AUTHORITY_CONTAIN));
         disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("search.yahoo.com").build(), MatchVariant.AUTHORITY_CONTAIN));
+        disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("search.brave.com").build(), MatchVariant.AUTHORITY_CONTAIN));
         disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("yep.com").build(), MatchVariant.AUTHORITY_CONTAIN));
         disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("openverse.org").build(), MatchVariant.AUTHORITY_CONTAIN));
         disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("startpage.com").build(), MatchVariant.AUTHORITY_CONTAIN));
