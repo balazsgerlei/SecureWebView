@@ -231,6 +231,10 @@ public class SecureWebView extends FrameLayout {
     }
 
     public void loadUrlWithoutEscapingJavascript(String url) {
+        if (shouldBlockRequest(Uri.parse(url))) {
+            return;
+        }
+
         webView.loadUrl(url);
     }
 
