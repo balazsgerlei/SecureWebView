@@ -222,20 +222,20 @@ public class SecureWebView extends FrameLayout {
         this.webView.setWebChromeClient(client);
     }
 
-    public void loadUrl(String url) {
+    private void loadUrl(String url, boolean escapeJavascript) {
         if (shouldBlockRequest(Uri.parse(url))) {
             return;
         }
-        final String urlToLoad = StringEscapeUtils.escapeEcmaScript(url);
+        final String urlToLoad = escapeJavascript ? StringEscapeUtils.escapeEcmaScript(url) : url;
         webView.loadUrl(urlToLoad);
     }
 
-    public void loadUrlWithoutEscapingJavascript(String url) {
-        if (shouldBlockRequest(Uri.parse(url))) {
-            return;
-        }
+    public void loadUrl(String url) {
+        loadUrl(url, true);
+    }
 
-        webView.loadUrl(url);
+    public void loadUrlWithoutEscapingJavascript(String url) {
+        loadUrl(url, false);
     }
 
     public void evaluateJavascript(String script, ValueCallback<String> resultCallback) {
