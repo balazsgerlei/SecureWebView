@@ -199,6 +199,10 @@ public class SecureWebView extends FrameLayout {
             return true;
         }
 
+        if (!this.webView.getSettings().getAllowFileAccess() && "file".equals(uri.getScheme())) {
+            return true;
+        }
+
         final boolean allowedByAllowedHostList = allowedHosts == null || allowedHosts.contains(uri.getHost());
         if (!allowedByAllowedHostList) {
             return true;
