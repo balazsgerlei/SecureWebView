@@ -31,6 +31,7 @@ public class SecureWebView extends FrameLayout {
     private WebViewClient webViewClient;
 
     private boolean alwaysOpenPagesInWebView = false;
+    private boolean allowFileAccess = false;
 
     private List<String> allowedHosts = null;
 
@@ -189,7 +190,7 @@ public class SecureWebView extends FrameLayout {
         this.rootView = inflate(context, R.layout.secure_web_view, this);
         this.webView = rootView.findViewById(R.id.webView);
 
-        this.webView.getSettings().setAllowFileAccess(false);
+        setAllowFileAccess(false);
         this.webView.getSettings().setAllowContentAccess(false);
         this.webView.setWebViewClient(new SecureWebViewClient());
     }
@@ -199,7 +200,7 @@ public class SecureWebView extends FrameLayout {
             return true;
         }
 
-        if (!this.webView.getSettings().getAllowFileAccess() && "file".equals(uri.getScheme())) {
+        if (!allowFileAccess && "file".equals(uri.getScheme())) {
             return true;
         }
 
@@ -259,11 +260,12 @@ public class SecureWebView extends FrameLayout {
     }
 
     public void setAllowFileAccess(boolean allow) {
+        allowFileAccess = allow;
         webView.getSettings().setAllowFileAccess(allow);
     }
 
     public boolean getAllowFileAccess() {
-        return webView.getSettings().getAllowFileAccess();
+        return allowFileAccess;
     }
 
     public void setAllowContentAccess(boolean allow) {
