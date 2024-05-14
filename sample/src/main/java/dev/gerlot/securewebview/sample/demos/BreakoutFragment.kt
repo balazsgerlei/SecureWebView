@@ -71,7 +71,6 @@ class BreakoutFragment : Fragment(), SecurableWebViewFragment {
             SecureWebView.DisallowedUrl(Uri.Builder().scheme("https").authority("google.com").build(), MatchVariant.AUTHORITY_WITHOUT_WWW_AND_PATH),
             SecureWebView.DisallowedUrl(Uri.Builder().scheme("https").authority("google.com").appendPath("").build(), MatchVariant.AUTHORITY_WITHOUT_WWW_AND_PATH),
         ))*/
-        binding.secureWebView.disallowPopularSearchEngines()
         binding.secureWebView.setWebViewClient(object : WebViewClient() {
 
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {

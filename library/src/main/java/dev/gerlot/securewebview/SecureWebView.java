@@ -35,7 +35,7 @@ public class SecureWebView extends FrameLayout {
 
     private List<String> allowedHosts = null;
 
-    private List<DisallowedUrl> disallowedUrls = null;
+    private List<DisallowedUrl> disallowedUrls = new ArrayList<>();
 
     public void setAlwaysOpenPagesInWebView(boolean alwaysOpenPagesInWebView) {
         this.alwaysOpenPagesInWebView = alwaysOpenPagesInWebView;
@@ -49,8 +49,17 @@ public class SecureWebView extends FrameLayout {
         this.disallowedUrls = disallowedUrls;
     }
 
-    public void disallowPopularSearchEngines() {
+    public void clearDisallowedUrls() {
+        this.disallowedUrls = null;
+    }
+
+    public void addToDisallowedUrls(List<DisallowedUrl> disallowedUrls) {
+        this.disallowedUrls.addAll(disallowedUrls);
+    }
+
+    public void addPopularSearchEnginesToDisallowedUrls() {
         final List<DisallowedUrl> disallowedUrlList = new ArrayList<>();
+
         disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("google.com").build(), MatchVariant.AUTHORITY_WITHOUT_WWW_AND_PATH));
         disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("google.com").appendPath("").build(), MatchVariant.AUTHORITY_WITHOUT_WWW_AND_PATH));
         disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("bing.com").build(), MatchVariant.AUTHORITY_CONTAIN));
@@ -64,7 +73,22 @@ public class SecureWebView extends FrameLayout {
         disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("swisscows.com").build(), MatchVariant.AUTHORITY_CONTAIN));
         disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("gibiru.com").build(), MatchVariant.AUTHORITY_CONTAIN));
         disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("wiki.com").build(), MatchVariant.AUTHORITY_CONTAIN));
-        this.disallowedUrls = disallowedUrlList;
+        disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("dogpile.com").build(), MatchVariant.AUTHORITY_CONTAIN));
+        disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("startpage.com").build(), MatchVariant.AUTHORITY_CONTAIN));
+        disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("ask.com").build(), MatchVariant.AUTHORITY_CONTAIN));
+        disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("baidu.com").build(), MatchVariant.AUTHORITY_CONTAIN));
+
+        addToDisallowedUrls(disallowedUrlList);
+    }
+
+    public void addAiChatBotsToDisallowedUrls() {
+        final List<DisallowedUrl> disallowedUrlList = new ArrayList<>();
+
+        disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("chatgpt.com").build(), MatchVariant.AUTHORITY_CONTAIN));
+        disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("copilot.microsoft.com").build(), MatchVariant.AUTHORITY_CONTAIN));
+        disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("gemini.google.com").build(), MatchVariant.AUTHORITY_CONTAIN));
+
+        addToDisallowedUrls(disallowedUrlList);
     }
 
     public enum MatchVariant {
@@ -193,6 +217,10 @@ public class SecureWebView extends FrameLayout {
         setAllowFileAccess(false);
         this.webView.getSettings().setAllowContentAccess(false);
         this.webView.setWebViewClient(new SecureWebViewClient());
+
+        this.disallowedUrls = new ArrayList<>();
+        addPopularSearchEnginesToDisallowedUrls();
+        addAiChatBotsToDisallowedUrls();
     }
 
     private boolean shouldBlockRequest(final Uri uri) {
