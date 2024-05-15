@@ -1,6 +1,5 @@
 package dev.gerlot.securewebview.sample.demos
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -15,7 +14,9 @@ import dev.gerlot.securewebview.sample.R
 import dev.gerlot.securewebview.sample.SecurableWebViewFragment
 import dev.gerlot.securewebview.sample.WebViewSecureState
 import dev.gerlot.securewebview.sample.databinding.ClearTextTrafficFragmentBinding
+import dev.gerlot.securewebview.sample.util.hideKeyboard
 import dev.gerlot.securewebview.sample.util.makeClearableEditText
+import dev.gerlot.securewebview.sample.util.setOnDoneActionListener
 
 class ClearTextTrafficFragment  : Fragment(), SecurableWebViewFragment {
 
@@ -84,11 +85,9 @@ class ClearTextTrafficFragment  : Fragment(), SecurableWebViewFragment {
         })
 
         binding.urlInput.setImeActionLabel(resources.getString(R.string.load_url), KeyEvent.KEYCODE_ENTER)
-        binding.urlInput.setOnEditorActionListener { _, actionId, event ->
-            if (actionId == KeyEvent.KEYCODE_ENTER || actionId == KeyEvent.KEYCODE_ENDCALL
-                || event?.keyCode == KeyEvent.KEYCODE_ENTER) {
-                loadUrl(binding.urlInput.text.toString())
-            }
+        binding.urlInput.setOnDoneActionListener {
+            loadUrl(binding.urlInput.text.toString())
+            binding.urlInput.clearFocus()
             false
         }
         binding.urlInput.makeClearableEditText()
@@ -107,6 +106,7 @@ class ClearTextTrafficFragment  : Fragment(), SecurableWebViewFragment {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        activity?.hideKeyboard()
         _binding = null
     }
 

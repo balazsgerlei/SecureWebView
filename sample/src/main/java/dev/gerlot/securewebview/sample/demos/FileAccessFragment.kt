@@ -20,8 +20,9 @@ import dev.gerlot.securewebview.sample.R
 import dev.gerlot.securewebview.sample.SecurableWebViewFragment
 import dev.gerlot.securewebview.sample.WebViewSecureState
 import dev.gerlot.securewebview.sample.databinding.FileAccessFragmentBinding
+import dev.gerlot.securewebview.sample.util.hideKeyboard
 import dev.gerlot.securewebview.sample.util.makeClearableEditText
-
+import dev.gerlot.securewebview.sample.util.setOnDoneActionListener
 
 class FileAccessFragment : Fragment(), SecurableWebViewFragment {
 
@@ -109,11 +110,9 @@ class FileAccessFragment : Fragment(), SecurableWebViewFragment {
         })
 
         binding.urlInput.setImeActionLabel(resources.getString(R.string.load_url), KeyEvent.KEYCODE_ENTER)
-        binding.urlInput.setOnEditorActionListener { _, actionId, event ->
-            if (actionId == KeyEvent.KEYCODE_ENTER || actionId == KeyEvent.KEYCODE_ENDCALL
-                || event?.keyCode == KeyEvent.KEYCODE_ENTER) {
-                loadUrl(binding.urlInput.text.toString())
-            }
+        binding.urlInput.setOnDoneActionListener {
+            loadUrl(binding.urlInput.text.toString())
+            binding.urlInput.clearFocus()
             false
         }
         binding.urlInput.makeClearableEditText()
@@ -141,6 +140,7 @@ class FileAccessFragment : Fragment(), SecurableWebViewFragment {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        activity?.hideKeyboard()
         _binding = null
     }
 

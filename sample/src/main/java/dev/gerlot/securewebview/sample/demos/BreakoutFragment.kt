@@ -1,6 +1,5 @@
 package dev.gerlot.securewebview.sample.demos
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +12,6 @@ import androidx.fragment.app.Fragment
 import dev.gerlot.securewebview.sample.SecurableWebViewFragment
 import dev.gerlot.securewebview.sample.WebViewSecureState
 import dev.gerlot.securewebview.sample.databinding.BreakoutFragmentBinding
-
 
 class BreakoutFragment : Fragment(), SecurableWebViewFragment {
 

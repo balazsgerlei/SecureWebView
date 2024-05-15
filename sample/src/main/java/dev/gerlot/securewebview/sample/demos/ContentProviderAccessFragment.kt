@@ -1,6 +1,5 @@
 package dev.gerlot.securewebview.sample.demos
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
