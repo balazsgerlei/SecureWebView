@@ -90,6 +90,7 @@ class FileAccessFragment : Fragment(), SecurableWebViewFragment {
             override fun onPageFinished(view: WebView?, url: String?) {
                 currentUrl = url
                 view ?: return
+                _binding ?: return
                 binding.urlInput.setText(url)
                 super.onPageFinished(view, url)
             }
@@ -100,6 +101,7 @@ class FileAccessFragment : Fragment(), SecurableWebViewFragment {
             override fun onPageFinished(view: WebView?, url: String?) {
                 currentUrl = url
                 view ?: return
+                _binding ?: return
                 binding.urlInput.setText(url)
                 super.onPageFinished(view, url)
             }
