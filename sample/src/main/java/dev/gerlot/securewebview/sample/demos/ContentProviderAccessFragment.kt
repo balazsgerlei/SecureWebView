@@ -85,7 +85,6 @@ class ContentProviderAccessFragment: Fragment(), SecurableWebViewFragment {
         }
 
         if (savedInstanceState == null) {
-            currentUrl = INITIAL_URI
             loadUrl(INITIAL_URI)
         }
     }
@@ -96,6 +95,7 @@ class ContentProviderAccessFragment: Fragment(), SecurableWebViewFragment {
     }
 
     private fun loadUrl(url: String) {
+        currentUrl = url
         if (url != binding.urlInput.text.toString()) {
             binding.urlInput.setText(url)
         }

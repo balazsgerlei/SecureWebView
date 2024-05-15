@@ -99,7 +99,6 @@ class ClearTextTrafficFragment  : Fragment(), SecurableWebViewFragment {
         }
 
         if (savedInstanceState == null) {
-            currentUrl = INITIAL_URL
             loadUrl(INITIAL_URL)
         }
     }
@@ -111,6 +110,7 @@ class ClearTextTrafficFragment  : Fragment(), SecurableWebViewFragment {
     }
 
     private fun loadUrl(url: String) {
+        currentUrl = url
         if (url != binding.urlInput.text.toString()) {
             binding.urlInput.setText(url)
         }

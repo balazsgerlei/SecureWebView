@@ -81,7 +81,6 @@ class JavaScriptInjectionFragment: Fragment(), SecurableWebViewFragment {
         }
 
         if (savedInstanceState == null) {
-            currentUrl = INJECTED_JAVASCRIPT
             loadUrl(INJECTED_JAVASCRIPT)
         }
     }
@@ -93,6 +92,7 @@ class JavaScriptInjectionFragment: Fragment(), SecurableWebViewFragment {
     }
 
     private fun loadUrl(url: String) {
+        currentUrl = url
         if (url != binding.urlInput.text.toString()) {
             binding.urlInput.setText(url)
         }

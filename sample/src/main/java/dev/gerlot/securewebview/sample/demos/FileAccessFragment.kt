@@ -145,6 +145,7 @@ class FileAccessFragment : Fragment(), SecurableWebViewFragment {
     }
 
     private fun loadUrl(url: String) {
+        currentUrl = url
         if (url != binding.urlInput.text.toString()) {
             binding.urlInput.setText(url)
         }
