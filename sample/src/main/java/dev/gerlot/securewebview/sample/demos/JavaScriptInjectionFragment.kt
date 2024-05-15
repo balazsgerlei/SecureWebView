@@ -1,15 +1,21 @@
 package dev.gerlot.securewebview.sample.demos
 
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
+import dev.gerlot.securewebview.sample.R
 import dev.gerlot.securewebview.sample.SecurableWebViewFragment
 import dev.gerlot.securewebview.sample.WebViewSecureState
 import dev.gerlot.securewebview.sample.databinding.JavascriptInjectionFragmentBinding
+import dev.gerlot.securewebview.sample.util.makeClearableEditText
 
 
 class JavaScriptInjectionFragment: Fragment(), SecurableWebViewFragment {
@@ -19,7 +25,7 @@ class JavaScriptInjectionFragment: Fragment(), SecurableWebViewFragment {
 
     private var webViewSecureState = WebViewSecureState.INSECURE
 
-    private var currentlyLoadedScript: String? = null
+    private var currentUrl: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,12 +40,45 @@ class JavaScriptInjectionFragment: Fragment(), SecurableWebViewFragment {
         super.onViewCreated(view, savedInstanceState)
 
         binding.insecureWebView.settings.javaScriptEnabled = true
-        binding.insecureWebView.webViewClient = WebViewClient()
+        binding.insecureWebView.webViewClient = object : WebViewClient() {
+
+            override fun shouldOverrideUrlLoading(
+                view: WebView?,
+                request: WebResourceRequest?
+            ): Boolean {
+                return false
+            }
+
+            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                currentUrl = url
+                view ?: return
+                binding.urlInput.setText(url)
+            }
+
+        }
         binding.insecureWebView.webChromeClient = WebChromeClient()
 
         binding.secureWebView.javaScriptEnabled = true
-        binding.secureWebView.setWebViewClient(WebViewClient())
+        binding.secureWebView.setWebViewClient(object : WebViewClient() {
+
+            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                currentUrl = url
+                view ?: return
+                binding.urlInput.setText(url)
+            }
+
+        })
         binding.secureWebView.setWebChromeClient(WebChromeClient())
+
+        binding.urlInput.setImeActionLabel(resources.getString(R.string.load_url), KeyEvent.KEYCODE_ENTER)
+        binding.urlInput.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == KeyEvent.KEYCODE_ENTER || actionId == KeyEvent.KEYCODE_ENDCALL
+                || event?.keyCode == KeyEvent.KEYCODE_ENTER) {
+                loadUrl(binding.urlInput.text.toString())
+            }
+            false
+        }
+        binding.urlInput.makeClearableEditText()
 
         if (webViewSecureState == WebViewSecureState.INSECURE) {
             binding.viewFlipper.displayedChild = 0
@@ -48,7 +87,7 @@ class JavaScriptInjectionFragment: Fragment(), SecurableWebViewFragment {
         }
 
         if (savedInstanceState == null) {
-            currentlyLoadedScript = INJECTED_JAVASCRIPT
+            currentUrl = INJECTED_JAVASCRIPT
             loadUrl(INJECTED_JAVASCRIPT)
         }
     }
@@ -71,7 +110,7 @@ class JavaScriptInjectionFragment: Fragment(), SecurableWebViewFragment {
         webViewSecureState = WebViewSecureState.SECURE
         if (view != null) {
             binding.viewFlipper.displayedChild = 1
-            currentlyLoadedScript?.let {
+            currentUrl?.let {
                 loadUrl(it)
             }
         }
@@ -81,7 +120,7 @@ class JavaScriptInjectionFragment: Fragment(), SecurableWebViewFragment {
         webViewSecureState = WebViewSecureState.INSECURE
         if (view != null) {
             binding.viewFlipper.displayedChild = 0
-            currentlyLoadedScript?.let {
+            currentUrl?.let {
                 loadUrl(it)
             }
         }

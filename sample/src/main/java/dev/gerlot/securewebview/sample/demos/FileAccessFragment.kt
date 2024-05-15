@@ -106,12 +106,11 @@ class FileAccessFragment : Fragment(), SecurableWebViewFragment {
 
         binding.urlInput.setImeActionLabel(resources.getString(R.string.load_url), KeyEvent.KEYCODE_ENTER)
         binding.urlInput.setOnEditorActionListener { _, actionId, event ->
-            if (actionId == KeyEvent.KEYCODE_ENTER || event?.keyCode == KeyEvent.KEYCODE_ENTER) {
+            if (actionId == KeyEvent.KEYCODE_ENTER || actionId == KeyEvent.KEYCODE_ENDCALL
+                || event?.keyCode == KeyEvent.KEYCODE_ENTER) {
                 loadUrl(binding.urlInput.text.toString())
-                true
-            } else {
-                false
             }
+            false
         }
         binding.urlInput.makeClearableEditText()
 

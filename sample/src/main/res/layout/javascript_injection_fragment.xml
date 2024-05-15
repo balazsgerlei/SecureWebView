@@ -32,7 +32,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:enabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -41,6 +40,8 @@
             android:id="@+id/urlInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableRight="@drawable/ic_clear"
+            android:drawableTint="?android:textColorPrimary"
             android:hint="@string/url"
             android:inputType="text|textUri"
             android:singleLine="true" />
