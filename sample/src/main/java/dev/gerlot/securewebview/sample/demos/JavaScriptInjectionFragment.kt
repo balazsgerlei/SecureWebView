@@ -42,17 +42,11 @@ class JavaScriptInjectionFragment: Fragment(), SecurableWebViewFragment {
         binding.insecureWebView.settings.javaScriptEnabled = true
         binding.insecureWebView.webViewClient = object : WebViewClient() {
 
-            override fun shouldOverrideUrlLoading(
-                view: WebView?,
-                request: WebResourceRequest?
-            ): Boolean {
-                return false
-            }
-
-            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+            override fun onPageFinished(view: WebView?, url: String?) {
                 currentUrl = url
                 view ?: return
                 binding.urlInput.setText(url)
+                super.onPageFinished(view, url)
             }
 
         }
@@ -61,10 +55,11 @@ class JavaScriptInjectionFragment: Fragment(), SecurableWebViewFragment {
         binding.secureWebView.javaScriptEnabled = true
         binding.secureWebView.setWebViewClient(object : WebViewClient() {
 
-            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+            override fun onPageFinished(view: WebView?, url: String?) {
                 currentUrl = url
                 view ?: return
                 binding.urlInput.setText(url)
+                super.onPageFinished(view, url)
             }
 
         })
@@ -98,7 +93,9 @@ class JavaScriptInjectionFragment: Fragment(), SecurableWebViewFragment {
     }
 
     private fun loadUrl(url: String) {
-        binding.urlInput.setText(url)
+        if (url != binding.urlInput.text.toString()) {
+            binding.urlInput.setText(url)
+        }
         if (webViewSecureState == WebViewSecureState.INSECURE) {
             binding.insecureWebView.loadUrl(url)
         } else {

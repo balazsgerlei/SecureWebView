@@ -60,8 +60,9 @@ class BreakoutFragment : Fragment(), SecurableWebViewFragment {
                 return false
             }
 
-            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+            override fun onPageFinished(view: WebView?, url: String?) {
                 currentUrl = url
+                super.onPageFinished(view, url)
             }
 
         }
@@ -73,8 +74,9 @@ class BreakoutFragment : Fragment(), SecurableWebViewFragment {
         ))*/
         binding.secureWebView.setWebViewClient(object : WebViewClient() {
 
-            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+            override fun onPageFinished(view: WebView?, url: String?) {
                 currentUrl = url
+                super.onPageFinished(view, url)
             }
 
         })

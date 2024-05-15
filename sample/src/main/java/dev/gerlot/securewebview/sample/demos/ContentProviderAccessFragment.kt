@@ -58,19 +58,21 @@ class ContentProviderAccessFragment: Fragment(), SecurableWebViewFragment {
                 return false
             }
 
-            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+            override fun onPageFinished(view: WebView?, url: String?) {
                 currentUrl = url
                 view ?: return
                 binding.urlInput.setText(url)
+                super.onPageFinished(view, url)
             }
 
         }
         binding.secureWebView.setWebViewClient(object : WebViewClient() {
 
-            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+            override fun onPageFinished(view: WebView?, url: String?) {
                 currentUrl = url
                 view ?: return
                 binding.urlInput.setText(url)
+                super.onPageFinished(view, url)
             }
 
         })
@@ -93,6 +95,9 @@ class ContentProviderAccessFragment: Fragment(), SecurableWebViewFragment {
     }
 
     private fun loadUrl(url: String) {
+        if (url != binding.urlInput.text.toString()) {
+            binding.urlInput.setText(url)
+        }
         if (webViewSecureState == WebViewSecureState.INSECURE) {
             binding.insecureWebView.loadUrl(url)
         } else {
