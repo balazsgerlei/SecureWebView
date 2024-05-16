@@ -37,7 +37,7 @@ class FileAccessFragment : Fragment(), SecurableWebViewFragment {
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
-                loadUrl(INITIAL_URL)
+                loadUrl(INITIAL_URI)
             } else {
                 // Explain to the user that the feature is unavailable because the
                 // feature requires a permission that the user has denied.
@@ -125,7 +125,7 @@ class FileAccessFragment : Fragment(), SecurableWebViewFragment {
         if (savedInstanceState == null) {
             val permissionToUse = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) Manifest.permission.READ_MEDIA_IMAGES else Manifest.permission.READ_EXTERNAL_STORAGE
             if (ContextCompat.checkSelfPermission(requireContext(), permissionToUse) == PackageManager.PERMISSION_GRANTED) {
-                loadUrl(INITIAL_URL)
+                loadUrl(INITIAL_URI)
             } else if (shouldShowRequestPermissionRationale(permissionToUse)) {
                 // In an educational UI, explain to the user why your app requires this
                 // permission for a specific feature to behave as expected, and what
@@ -177,7 +177,7 @@ class FileAccessFragment : Fragment(), SecurableWebViewFragment {
 
     companion object {
 
-        private const val INITIAL_URL = "file:///storage/emulated/0/Download/android_robot.png"
+        private const val INITIAL_URI = "file:///storage/emulated/0/Download/android_robot.png"
 
         val TAG: String = FileAccessFragment::class.java.canonicalName ?: FileAccessFragment::class.java.name
 

@@ -81,7 +81,7 @@ class JavaScriptInjectionFragment: Fragment(), SecurableWebViewFragment {
         }
 
         if (savedInstanceState == null) {
-            loadUrl(INJECTED_JAVASCRIPT)
+            loadUrl(INITIAL_URI)
         }
     }
 
@@ -125,9 +125,7 @@ class JavaScriptInjectionFragment: Fragment(), SecurableWebViewFragment {
 
     companion object {
 
-        private const val MALICIOUS_PARAMETER = "alert(\"Hello World\")"
-
-        private const val INJECTED_JAVASCRIPT = "javascript:void($MALICIOUS_PARAMETER)"
+        private const val INITIAL_URI = "javascript:void(alert(\"Hello World\"))"
 
         val TAG: String = JavaScriptInjectionFragment::class.java.canonicalName ?: JavaScriptInjectionFragment::class.java.name
 

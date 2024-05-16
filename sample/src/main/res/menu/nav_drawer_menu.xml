@@ -27,9 +27,9 @@
             android:icon="@drawable/ic_hide_source"
             android:title="@string/opaque_origin" />
         <item
-            android:id="@+id/javascript_injection"
-            android:icon="@drawable/ic_inject"
-            android:title="@string/javascript_injection" />
+            android:id="@+id/javascript_evaluation"
+            android:icon="@drawable/ic_javascript"
+            android:title="@string/javascript_evaluation" />
     </group>
 
 </menu>
