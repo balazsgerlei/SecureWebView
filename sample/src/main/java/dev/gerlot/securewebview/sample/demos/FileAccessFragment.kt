@@ -2,7 +2,6 @@ package dev.gerlot.securewebview.sample.demos
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
@@ -152,8 +151,7 @@ class FileAccessFragment : Fragment(), SecurableWebViewFragment {
         if (webViewSecureState == WebViewSecureState.INSECURE) {
             binding.insecureWebView.loadUrl(url)
         } else {
-            // To avoid escaping non-web URIs we need to use the method that does not try escaping JavaScript
-            binding.secureWebView.loadUrlWithoutEscapingJavascript(url)
+            binding.secureWebView.loadUrl(url)
         }
     }
 

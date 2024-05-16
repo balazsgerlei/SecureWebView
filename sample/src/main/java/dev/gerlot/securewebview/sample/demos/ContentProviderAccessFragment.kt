@@ -102,8 +102,7 @@ class ContentProviderAccessFragment: Fragment(), SecurableWebViewFragment {
         if (webViewSecureState == WebViewSecureState.INSECURE) {
             binding.insecureWebView.loadUrl(url)
         } else {
-            // To avoid escaping non-web URIs we need to use the method that does not try escaping JavaScript
-            binding.secureWebView.loadUrlWithoutEscapingJavascript(url)
+            binding.secureWebView.loadUrl(url)
         }
     }
 
