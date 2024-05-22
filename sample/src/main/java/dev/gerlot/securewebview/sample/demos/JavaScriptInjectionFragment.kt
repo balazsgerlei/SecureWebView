@@ -1,16 +1,21 @@
 package dev.gerlot.securewebview.sample.demos
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
+import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
+import dev.gerlot.securewebview.sample.R
 import dev.gerlot.securewebview.sample.SecurableWebViewFragment
 import dev.gerlot.securewebview.sample.WebViewSecureState
 import dev.gerlot.securewebview.sample.databinding.JavascriptInjectionFragmentBinding
-
+import dev.gerlot.securewebview.sample.util.hideKeyboard
+import dev.gerlot.securewebview.sample.util.makeClearableEditText
+import dev.gerlot.securewebview.sample.util.setOnDoneActionListener
 
 class JavaScriptInjectionFragment: Fragment(), SecurableWebViewFragment {
 
@@ -19,7 +24,7 @@ class JavaScriptInjectionFragment: Fragment(), SecurableWebViewFragment {
 
     private var webViewSecureState = WebViewSecureState.INSECURE
 
-    private var currentlyLoadedScript: String? = null
+    private var currentUrl: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,12 +39,40 @@ class JavaScriptInjectionFragment: Fragment(), SecurableWebViewFragment {
         super.onViewCreated(view, savedInstanceState)
 
         binding.insecureWebView.settings.javaScriptEnabled = true
-        binding.insecureWebView.webViewClient = WebViewClient()
+        binding.insecureWebView.webViewClient = object : WebViewClient() {
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                currentUrl = url
+                view ?: return
+                _binding ?: return
+                binding.urlInput.setText(url)
+                super.onPageFinished(view, url)
+            }
+
+        }
         binding.insecureWebView.webChromeClient = WebChromeClient()
 
         binding.secureWebView.javaScriptEnabled = true
-        binding.secureWebView.setWebViewClient(WebViewClient())
+        binding.secureWebView.setWebViewClient(object : WebViewClient() {
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                currentUrl = url
+                view ?: return
+                _binding ?: return
+                binding.urlInput.setText(url)
+                super.onPageFinished(view, url)
+            }
+
+        })
         binding.secureWebView.setWebChromeClient(WebChromeClient())
+
+        binding.urlInput.setImeActionLabel(resources.getString(R.string.load_url), KeyEvent.KEYCODE_ENTER)
+        binding.urlInput.setOnDoneActionListener {
+            loadUrl(binding.urlInput.text.toString())
+            binding.urlInput.clearFocus()
+            false
+        }
+        binding.urlInput.makeClearableEditText()
 
         if (webViewSecureState == WebViewSecureState.INSECURE) {
             binding.viewFlipper.displayedChild = 0
@@ -48,18 +81,21 @@ class JavaScriptInjectionFragment: Fragment(), SecurableWebViewFragment {
         }
 
         if (savedInstanceState == null) {
-            currentlyLoadedScript = INJECTED_JAVASCRIPT
-            loadUrl(INJECTED_JAVASCRIPT)
+            loadUrl(INITIAL_URI)
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        activity?.hideKeyboard()
         _binding = null
     }
 
     private fun loadUrl(url: String) {
-        binding.urlInput.setText(url)
+        currentUrl = url
+        if (url != binding.urlInput.text.toString()) {
+            binding.urlInput.setText(url)
+        }
         if (webViewSecureState == WebViewSecureState.INSECURE) {
             binding.insecureWebView.loadUrl(url)
         } else {
@@ -71,7 +107,7 @@ class JavaScriptInjectionFragment: Fragment(), SecurableWebViewFragment {
         webViewSecureState = WebViewSecureState.SECURE
         if (view != null) {
             binding.viewFlipper.displayedChild = 1
-            currentlyLoadedScript?.let {
+            currentUrl?.let {
                 loadUrl(it)
             }
         }
@@ -81,7 +117,7 @@ class JavaScriptInjectionFragment: Fragment(), SecurableWebViewFragment {
         webViewSecureState = WebViewSecureState.INSECURE
         if (view != null) {
             binding.viewFlipper.displayedChild = 0
-            currentlyLoadedScript?.let {
+            currentUrl?.let {
                 loadUrl(it)
             }
         }
@@ -89,9 +125,7 @@ class JavaScriptInjectionFragment: Fragment(), SecurableWebViewFragment {
 
     companion object {
 
-        private const val MALICIOUS_PARAMETER = "alert(\"Hello World\")"
-
-        private const val INJECTED_JAVASCRIPT = "javascript:void($MALICIOUS_PARAMETER)"
+        private const val INITIAL_URI = "javascript:void(alert(\"Hello World\"))"
 
         val TAG: String = JavaScriptInjectionFragment::class.java.canonicalName ?: JavaScriptInjectionFragment::class.java.name
 

@@ -2,7 +2,6 @@ package dev.gerlot.securewebview.sample.demos
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
@@ -20,8 +19,9 @@ import dev.gerlot.securewebview.sample.R
 import dev.gerlot.securewebview.sample.SecurableWebViewFragment
 import dev.gerlot.securewebview.sample.WebViewSecureState
 import dev.gerlot.securewebview.sample.databinding.FileAccessFragmentBinding
+import dev.gerlot.securewebview.sample.util.hideKeyboard
 import dev.gerlot.securewebview.sample.util.makeClearableEditText
-
+import dev.gerlot.securewebview.sample.util.setOnDoneActionListener
 
 class FileAccessFragment : Fragment(), SecurableWebViewFragment {
 
@@ -37,7 +37,7 @@ class FileAccessFragment : Fragment(), SecurableWebViewFragment {
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
-                loadUrl(INITIAL_URL)
+                loadUrl(INITIAL_URI)
             } else {
                 // Explain to the user that the feature is unavailable because the
                 // feature requires a permission that the user has denied.
@@ -87,31 +87,32 @@ class FileAccessFragment : Fragment(), SecurableWebViewFragment {
                 return false
             }
 
-            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+            override fun onPageFinished(view: WebView?, url: String?) {
                 currentUrl = url
                 view ?: return
+                _binding ?: return
                 binding.urlInput.setText(url)
+                super.onPageFinished(view, url)
             }
 
         }
         binding.secureWebView.setWebViewClient(object : WebViewClient() {
 
-            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+            override fun onPageFinished(view: WebView?, url: String?) {
                 currentUrl = url
                 view ?: return
+                _binding ?: return
                 binding.urlInput.setText(url)
+                super.onPageFinished(view, url)
             }
 
         })
 
         binding.urlInput.setImeActionLabel(resources.getString(R.string.load_url), KeyEvent.KEYCODE_ENTER)
-        binding.urlInput.setOnEditorActionListener { _, actionId, event ->
-            if (actionId == KeyEvent.KEYCODE_ENTER || event?.keyCode == KeyEvent.KEYCODE_ENTER) {
-                loadUrl(binding.urlInput.text.toString())
-                true
-            } else {
-                false
-            }
+        binding.urlInput.setOnDoneActionListener {
+            loadUrl(binding.urlInput.text.toString())
+            binding.urlInput.clearFocus()
+            false
         }
         binding.urlInput.makeClearableEditText()
 
@@ -124,7 +125,7 @@ class FileAccessFragment : Fragment(), SecurableWebViewFragment {
         if (savedInstanceState == null) {
             val permissionToUse = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) Manifest.permission.READ_MEDIA_IMAGES else Manifest.permission.READ_EXTERNAL_STORAGE
             if (ContextCompat.checkSelfPermission(requireContext(), permissionToUse) == PackageManager.PERMISSION_GRANTED) {
-                loadUrl(INITIAL_URL)
+                loadUrl(INITIAL_URI)
             } else if (shouldShowRequestPermissionRationale(permissionToUse)) {
                 // In an educational UI, explain to the user why your app requires this
                 // permission for a specific feature to behave as expected, and what
@@ -138,15 +139,19 @@ class FileAccessFragment : Fragment(), SecurableWebViewFragment {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        activity?.hideKeyboard()
         _binding = null
     }
 
     private fun loadUrl(url: String) {
+        currentUrl = url
+        if (url != binding.urlInput.text.toString()) {
+            binding.urlInput.setText(url)
+        }
         if (webViewSecureState == WebViewSecureState.INSECURE) {
             binding.insecureWebView.loadUrl(url)
         } else {
-            // To avoid escaping non-web URIs we need to use the method that does not try escaping JavaScript
-            binding.secureWebView.loadUrlWithoutEscapingJavascript(url)
+            binding.secureWebView.loadUrl(url)
         }
     }
 
@@ -172,7 +177,7 @@ class FileAccessFragment : Fragment(), SecurableWebViewFragment {
 
     companion object {
 
-        private const val INITIAL_URL = "file:///storage/emulated/0/Download/android_robot.png"
+        private const val INITIAL_URI = "file:///storage/emulated/0/Download/android_robot.png"
 
         val TAG: String = FileAccessFragment::class.java.canonicalName ?: FileAccessFragment::class.java.name
 

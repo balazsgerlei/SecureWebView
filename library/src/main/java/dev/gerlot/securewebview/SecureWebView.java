@@ -18,8 +18,6 @@ import android.widget.FrameLayout;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-import org.apache.commons.text.StringEscapeUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -224,7 +222,19 @@ public class SecureWebView extends FrameLayout {
     }
 
     private boolean shouldBlockRequest(final Uri uri) {
+        return shouldBlockRequest(uri, false, false);
+    }
+
+    private boolean shouldBlockRequest(final Uri uri, boolean allowDataUrl, boolean allowJavaScript) {
         if ("http".equals(uri.getScheme())) {
+            return true;
+        }
+
+        if (!allowDataUrl && "data".equals(uri.getScheme())) {
+            return true;
+        }
+
+        if (!allowJavaScript && "javascript".equals(uri.getScheme())) {
             return true;
         }
 
@@ -255,19 +265,14 @@ public class SecureWebView extends FrameLayout {
         this.webView.setWebChromeClient(client);
     }
 
-    private void loadUrl(String url, boolean escapeJavascript) {
-        if (shouldBlockRequest(Uri.parse(url))) {
+    protected void loadUrl(String url, boolean allowJavaScript) {
+        if (shouldBlockRequest(Uri.parse(url), false, allowJavaScript)) {
             return;
         }
-        final String urlToLoad = escapeJavascript ? StringEscapeUtils.escapeEcmaScript(url) : url;
-        webView.loadUrl(urlToLoad);
+        webView.loadUrl(url);
     }
 
     public void loadUrl(String url) {
-        loadUrl(url, true);
-    }
-
-    public void loadUrlWithoutEscapingJavascript(String url) {
         loadUrl(url, false);
     }
 

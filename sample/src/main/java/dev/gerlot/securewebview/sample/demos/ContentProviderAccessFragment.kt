@@ -1,6 +1,5 @@
 package dev.gerlot.securewebview.sample.demos
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -58,19 +57,23 @@ class ContentProviderAccessFragment: Fragment(), SecurableWebViewFragment {
                 return false
             }
 
-            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+            override fun onPageFinished(view: WebView?, url: String?) {
                 currentUrl = url
                 view ?: return
+                _binding ?: return
                 binding.urlInput.setText(url)
+                super.onPageFinished(view, url)
             }
 
         }
         binding.secureWebView.setWebViewClient(object : WebViewClient() {
 
-            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+            override fun onPageFinished(view: WebView?, url: String?) {
                 currentUrl = url
                 view ?: return
+                _binding ?: return
                 binding.urlInput.setText(url)
+                super.onPageFinished(view, url)
             }
 
         })
@@ -82,7 +85,6 @@ class ContentProviderAccessFragment: Fragment(), SecurableWebViewFragment {
         }
 
         if (savedInstanceState == null) {
-            currentUrl = INITIAL_URI
             loadUrl(INITIAL_URI)
         }
     }
@@ -93,11 +95,14 @@ class ContentProviderAccessFragment: Fragment(), SecurableWebViewFragment {
     }
 
     private fun loadUrl(url: String) {
+        currentUrl = url
+        if (url != binding.urlInput.text.toString()) {
+            binding.urlInput.setText(url)
+        }
         if (webViewSecureState == WebViewSecureState.INSECURE) {
             binding.insecureWebView.loadUrl(url)
         } else {
-            // To avoid escaping non-web URIs we need to use the method that does not try escaping JavaScript
-            binding.secureWebView.loadUrlWithoutEscapingJavascript(url)
+            binding.secureWebView.loadUrl(url)
         }
     }
 

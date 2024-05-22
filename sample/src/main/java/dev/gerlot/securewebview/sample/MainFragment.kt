@@ -55,7 +55,7 @@ class MainFragment : Fragment() {
                 R.id.file_access -> showPage(FileAccessFragment.newInstance(), FileAccessFragment.TAG)
                 R.id.content_provider_access -> showPage(ContentProviderAccessFragment.newInstance(), ContentProviderAccessFragment.TAG)
                 R.id.opaque_origin -> showPage(OpaqueOriginFragment.newInstance(), OpaqueOriginFragment.TAG)
-                R.id.javascript_injection -> showPage(JavaScriptInjectionFragment.newInstance(), JavaScriptInjectionFragment.TAG)
+                R.id.javascript_evaluation -> showPage(JavaScriptInjectionFragment.newInstance(), JavaScriptInjectionFragment.TAG)
             }
             true
         }

@@ -56,7 +56,7 @@ class InfoBottomSheetFragment: BottomSheetDialogFragment() {
                 getString(R.string.opaque_origin_demo)
             }
             JavaScriptInjectionFragment.TAG -> {
-                getString(R.string.javascript_injection_demo)
+                getString(R.string.javascript_evaluation_demo)
             }
             else -> { "" }
         }
@@ -80,7 +80,7 @@ class InfoBottomSheetFragment: BottomSheetDialogFragment() {
                 getString(R.string.opaque_origin_demo_description)
             }
             JavaScriptInjectionFragment.TAG -> {
-                getString(R.string.javascript_injection_demo_description)
+                getString(R.string.javascript_evaluation_demo_description)
             }
             else -> { "" }
         }

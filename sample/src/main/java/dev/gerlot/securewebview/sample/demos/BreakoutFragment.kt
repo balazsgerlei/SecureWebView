@@ -1,6 +1,5 @@
 package dev.gerlot.securewebview.sample.demos
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +12,6 @@ import androidx.fragment.app.Fragment
 import dev.gerlot.securewebview.sample.SecurableWebViewFragment
 import dev.gerlot.securewebview.sample.WebViewSecureState
 import dev.gerlot.securewebview.sample.databinding.BreakoutFragmentBinding
-
 
 class BreakoutFragment : Fragment(), SecurableWebViewFragment {
 
@@ -60,8 +58,9 @@ class BreakoutFragment : Fragment(), SecurableWebViewFragment {
                 return false
             }
 
-            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+            override fun onPageFinished(view: WebView?, url: String?) {
                 currentUrl = url
+                super.onPageFinished(view, url)
             }
 
         }
@@ -73,8 +72,9 @@ class BreakoutFragment : Fragment(), SecurableWebViewFragment {
         ))*/
         binding.secureWebView.setWebViewClient(object : WebViewClient() {
 
-            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+            override fun onPageFinished(view: WebView?, url: String?) {
                 currentUrl = url
+                super.onPageFinished(view, url)
             }
 
         })
