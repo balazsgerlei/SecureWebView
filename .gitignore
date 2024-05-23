@@ -294,6 +294,8 @@ obj/
 .idea/gradle.xml
 .idea/navEditor.xml
 .idea/androidTestResultsUserPreferences.xml
+.idea/deploymentTargetDropDown.xml
+.idea/deploymentTargetSelector.xml
 
 # Legacy Eclipse project files
 .cproject
