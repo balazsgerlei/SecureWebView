@@ -123,16 +123,8 @@ class FileAccessFragment : Fragment(), SecurableWebViewFragment {
         }
 
         if (savedInstanceState == null) {
-            val permissionToUse = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) Manifest.permission.READ_MEDIA_IMAGES else Manifest.permission.READ_EXTERNAL_STORAGE
-            if (ContextCompat.checkSelfPermission(requireContext(), permissionToUse) == PackageManager.PERMISSION_GRANTED) {
+            checkPermissionAndExecute {
                 loadUrl(INITIAL_URI)
-            } else if (shouldShowRequestPermissionRationale(permissionToUse)) {
-                // In an educational UI, explain to the user why your app requires this
-                // permission for a specific feature to behave as expected, and what
-                // features are disabled if it's declined.
-                // Won't implement this for a sample app
-            } else {
-                requestPermissionLauncher.launch(permissionToUse)
             }
         }
     }
@@ -141,6 +133,20 @@ class FileAccessFragment : Fragment(), SecurableWebViewFragment {
         super.onDestroyView()
         activity?.hideKeyboard()
         _binding = null
+    }
+
+    private fun checkPermissionAndExecute(action: () -> Unit) {
+        val permissionToUse = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) Manifest.permission.READ_MEDIA_IMAGES else Manifest.permission.READ_EXTERNAL_STORAGE
+        if (ContextCompat.checkSelfPermission(requireContext(), permissionToUse) == PackageManager.PERMISSION_GRANTED) {
+            action()
+        } else if (shouldShowRequestPermissionRationale(permissionToUse)) {
+            // In an educational UI, explain to the user why your app requires this
+            // permission for a specific feature to behave as expected, and what
+            // features are disabled if it's declined.
+            // Won't implement this for a sample app
+        } else {
+            requestPermissionLauncher.launch(permissionToUse)
+        }
     }
 
     private fun loadUrl(url: String) {
