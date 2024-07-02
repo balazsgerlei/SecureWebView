@@ -183,7 +183,7 @@ class FileAccessFragment : Fragment(), SecurableWebViewFragment {
 
     companion object {
 
-        private const val INITIAL_URI = "file:///storage/emulated/0/Download/android_robot.png"
+        private const val INITIAL_URI = "file:///android_asset/android_robot.png"
 
         val TAG: String = FileAccessFragment::class.java.canonicalName ?: FileAccessFragment::class.java.name
 
