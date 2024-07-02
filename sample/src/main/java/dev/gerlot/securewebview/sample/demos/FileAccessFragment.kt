@@ -37,7 +37,7 @@ class FileAccessFragment : Fragment(), SecurableWebViewFragment {
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
-                loadUrl(INITIAL_URI)
+                currentUrl?.let { loadUrl(it) }
             } else {
                 // Explain to the user that the feature is unavailable because the
                 // feature requires a permission that the user has denied.
@@ -110,7 +110,7 @@ class FileAccessFragment : Fragment(), SecurableWebViewFragment {
 
         binding.urlInput.setImeActionLabel(resources.getString(R.string.load_url), KeyEvent.KEYCODE_ENTER)
         binding.urlInput.setOnDoneActionListener {
-            loadUrl(binding.urlInput.text.toString())
+            loadUrlWithPermissionCheck(binding.urlInput.text.toString())
             binding.urlInput.clearFocus()
             false
         }
@@ -123,9 +123,7 @@ class FileAccessFragment : Fragment(), SecurableWebViewFragment {
         }
 
         if (savedInstanceState == null) {
-            checkPermissionAndExecute {
-                loadUrl(INITIAL_URI)
-            }
+            loadUrlWithPermissionCheck(INITIAL_URI)
         }
     }
 
@@ -149,8 +147,22 @@ class FileAccessFragment : Fragment(), SecurableWebViewFragment {
         }
     }
 
-    private fun loadUrl(url: String) {
+    private fun loadUrlWithPermissionCheck(url: String) {
         currentUrl = url
+
+        // If not using SecureWebView and not trying to access an asset file included in the APK
+        // We need to check and potentially ask for file permission before try to load the fle
+        if (webViewSecureState == WebViewSecureState.SECURE
+            || url.trimStart().startsWith("file:///android_asset/")) {
+            loadUrl(url)
+        } else {
+            checkPermissionAndExecute {
+                loadUrl(url)
+            }
+        }
+    }
+
+    private fun loadUrl(url: String) {
         if (url != binding.urlInput.text.toString()) {
             binding.urlInput.setText(url)
         }
@@ -166,7 +178,7 @@ class FileAccessFragment : Fragment(), SecurableWebViewFragment {
         if (view != null) {
             binding.viewFlipper.displayedChild = 1
             currentUrl?.let {
-                loadUrl(it)
+                loadUrlWithPermissionCheck(it)
             }
         }
     }
@@ -176,7 +188,7 @@ class FileAccessFragment : Fragment(), SecurableWebViewFragment {
         if (view != null) {
             binding.viewFlipper.displayedChild = 0
             currentUrl?.let {
-                loadUrl(it)
+                loadUrlWithPermissionCheck(it)
             }
         }
     }
