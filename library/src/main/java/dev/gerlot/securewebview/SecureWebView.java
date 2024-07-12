@@ -19,7 +19,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import java.util.Arrays;
-import java.util.List;
 
 import dev.gerlot.securewebview.url.AllowedUrlList;
 import dev.gerlot.securewebview.url.AuthorityAndPathMatcher;
@@ -38,7 +37,7 @@ public class SecureWebView extends FrameLayout {
     private boolean alwaysOpenPagesInWebView = false;
     private boolean allowFileAccess = false;
 
-    private List<String> allowedHosts = null;
+    private AllowedUrlList allowedUrlList = null;
 
     private DeniedUrlList deniedUrlList = null;
 
@@ -46,8 +45,8 @@ public class SecureWebView extends FrameLayout {
         this.alwaysOpenPagesInWebView = alwaysOpenPagesInWebView;
     }
 
-    public void setAllowedHosts(List<String> allowedHosts) {
-        this.allowedHosts = allowedHosts;
+    public void setAllowedUrlList(AllowedUrlList allowedUrlList) {
+        this.allowedUrlList = allowedUrlList;
     }
 
     public void setDeniedUrlList(DeniedUrlList deniedUrlList) {
@@ -199,8 +198,8 @@ public class SecureWebView extends FrameLayout {
             return true;
         }
 
-        final boolean allowedByAllowedHostList = allowedHosts == null || allowedHosts.contains(uri.getHost());
-        if (!allowedByAllowedHostList) {
+        final boolean allowed = allowedUrlList == null || allowedUrlList.matches(uri);
+        if (!allowed) {
             return true;
         }
 
