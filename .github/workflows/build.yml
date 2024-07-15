@@ -7,8 +7,19 @@ on:
     branches: [ "main" ]
 
 jobs:
+  validate-gradle-wrapper:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Gradle Wrapper Validation
+        uses: gradle/actions/wrapper-validation@v3
+
   build:
     runs-on: ubuntu-latest
+    needs: [validate-gradle-wrapper]
     permissions:
       contents: read
 
