@@ -11,8 +11,8 @@ android {
         applicationId "dev.gerlot.securewebview.sample"
         minSdk 21
         targetSdk 34
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.0.0-alpha03"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
