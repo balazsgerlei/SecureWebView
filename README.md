@@ -2,6 +2,7 @@
 [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg)](https://android-arsenal.com/api?level=21)
 [![license](https://img.shields.io/github/license/balazsgerlei/SecureWebView)](https://creativecommons.org/publicdomain/zero/1.0/)
 [![last commit](https://img.shields.io/github/last-commit/balazsgerlei/SecureWebView?color=018786)](https://github.com/balazsgerlei/SecureWebView/commits/main)
+[![build](https://img.shields.io/github/actions/workflow/status/balazsgerlei/SecureWebView/build.yml?branch=main&event=push)](https://github.com/balazsgerlei/SecureWebView/actions/workflows/build.yml)
 [![](https://jitpack.io/v/balazsgerlei/SecureWebView.svg)](https://jitpack.io/#balazsgerlei/SecureWebView)
 
 Android WebView wrapper with secure defaults to avoid security issues caused by misconfiguring WebViews.
