@@ -222,15 +222,15 @@ public class SecureWebView extends FrameLayout {
     }
 
     private boolean shouldBlockRequest(final Uri uri) {
-        return shouldBlockRequest(uri, false, false);
+        return shouldBlockRequest(uri, true, false);
     }
 
-    private boolean shouldBlockRequest(final Uri uri, boolean allowDataUrl, boolean allowJavaScript) {
+    private boolean shouldBlockRequest(final Uri uri, boolean allowDataUri, boolean allowJavaScript) {
         if ("http".equals(uri.getScheme())) {
             return true;
         }
 
-        if (!allowDataUrl && "data".equals(uri.getScheme())) {
+        if (!allowDataUri && "data".equals(uri.getScheme())) {
             return true;
         }
 
@@ -309,7 +309,7 @@ public class SecureWebView extends FrameLayout {
         return webView.getSettings().getAllowContentAccess();
     }
 
-    public void loadDataWithBaseURL(String baseUrl,String data, String mimeType, String encoding, String historyUrl) {
+    public void loadDataWithBaseURL(String baseUrl, String data, String mimeType, String encoding, String historyUrl) {
         webView.loadDataWithBaseURL(baseUrl, data, mimeType, encoding, historyUrl);
     }
 
