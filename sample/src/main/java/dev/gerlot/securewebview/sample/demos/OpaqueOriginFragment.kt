@@ -62,7 +62,7 @@ class OpaqueOriginFragment: Fragment(), SecurableWebViewFragment {
         if (webViewSecureState == WebViewSecureState.INSECURE) {
             binding.insecureWebView.loadData(Base64.encode(data.toByteArray()), "text/html", "base64")
         } else {
-            binding.secureWebView.loadDataWithBaseURL("https://www.google.com", data, "text/html", "UTF-8", null)
+            binding.secureWebView.loadDataWithBaseURL("https://www.example.com", data, "text/html", "UTF-8", null)
         }
     }
 
