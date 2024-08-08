@@ -9,7 +9,6 @@ Android WebView wrapper with secure defaults to avoid security issues caused by 
 
 Still under heavy development, breaking API changes are expected!
 
-
 ## Setup
 
 The library is currently hosted on `jitpack.io`. You can add it as a depenency to your project:
@@ -29,7 +28,7 @@ Add it in your root `build.gradle` at the end of repositories:
 Step 2. Add the dependency
 
 	dependencies {
-	        implementation 'com.github.balazsgerlei:SecureWebView:1.0.0-alpha03'
+	        implementation 'com.github.balazsgerlei:SecureWebView:1.0.0-alpha04'
 	}
 
 
