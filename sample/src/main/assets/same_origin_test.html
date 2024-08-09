@@ -11,9 +11,9 @@ SPDX-License-Identifier: Apache-2.0 -->
     <script>
       const status = document.getElementById('fetch-status');
       
-      fetch('https://www.google.com')
+      fetch('https://www.example.com')
         .then(response => {
-          status.innerText = response.status;
+          status.innerText = `Status: ${response.status}`;
         })
         .catch(error => {
           status.innerText = error;

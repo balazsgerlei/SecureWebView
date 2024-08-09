@@ -52,7 +52,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'dev.gerlot.securewebview'
                 artifactId = 'securewebview'
-                version = '1.0.0-alpha03'
+                version = '1.0.0-alpha04'
             }
         }
     }
