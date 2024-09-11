@@ -11,8 +11,8 @@ public final class Uris {
     public static final Uri BING = new Uri.Builder().authority("bing.com").build();
     public static final Uri DUCKDUCKGO = new Uri.Builder().authority("duckduckgo.com").build();
     public static final Uri ECOSIA = new Uri.Builder().authority("ecosia.org").build();
-    public static final Uri YAHOO = new Uri.Builder().authority("search.yahoo.com").build();
-    public static final Uri BRAVE = new Uri.Builder().authority("search.brave.com").build();
+    public static final Uri YAHOO_SEARCH = new Uri.Builder().authority("search.yahoo.com").build();
+    public static final Uri BRAVE_SEARCH = new Uri.Builder().authority("search.brave.com").build();
     public static final Uri YEP = new Uri.Builder().authority("yep.com").build();
     public static final Uri OPENVERSE = new Uri.Builder().authority("openverse.org").build();
     public static final Uri STARTPAGE = new Uri.Builder().authority("startpage.com").build();
@@ -20,7 +20,7 @@ public final class Uris {
     public static final Uri GIBIRU = new Uri.Builder().authority("gibiru.com").build();
     public static final Uri WIKI = new Uri.Builder().authority("wiki.com").build();
     public static final Uri DOGPILE = new Uri.Builder().authority("dogpile.com").build();
-    public static final Uri ASK = new Uri.Builder().authority("ask.com").build();
+    public static final Uri ASK_DOT_COM = new Uri.Builder().authority("ask.com").build();
     public static final Uri BAIDU = new Uri.Builder().authority("baidu.com").build();
 
     // endregion
