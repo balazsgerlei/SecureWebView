@@ -1,23 +1,31 @@
 package dev.gerlot.securewebview.uri;
 
+import android.net.Uri;
+
+import androidx.annotation.NonNull;
+
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class UriList extends AbstractList<UriMatcher> {
+/**
+ * A list of URIs which can be matched against certain matchers to allow or disallow opening them
+ * in a SecureWebView.
+ */
+public class UriList extends AbstractList<UriMatcher> implements UriMatcher {
     protected final List<UriMatcher> mUriMatchers;
 
-    protected UriList() {
+    public UriList() {
         mUriMatchers = new ArrayList<>();
     }
 
-    protected UriList(UriMatcher... matchers) {
+    public UriList(UriMatcher... matchers) {
         mUriMatchers = Arrays.asList(matchers);
     }
 
-    protected UriList(Collection<UriMatcher> matchers) {
+    public UriList(Collection<UriMatcher> matchers) {
         mUriMatchers = new ArrayList<>(matchers);
     }
 
@@ -44,5 +52,18 @@ public abstract class UriList extends AbstractList<UriMatcher> {
     @Override
     public UriMatcher remove(int index) {
         return mUriMatchers.remove(index);
+    }
+
+    @Override
+    public boolean matches(@NonNull Uri uri) {
+        boolean hasAnyMatches = false;
+
+        for (UriMatcher matcher : mUriMatchers) {
+            if (matcher.matches(uri)) {
+                hasAnyMatches = true;
+            }
+        }
+
+        return hasAnyMatches;
     }
 }

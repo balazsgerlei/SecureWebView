@@ -20,10 +20,9 @@ import androidx.annotation.RequiresApi;
 
 import java.util.Arrays;
 
-import dev.gerlot.securewebview.uri.AllowedUriList;
 import dev.gerlot.securewebview.uri.AuthorityAndPathMatcher;
 import dev.gerlot.securewebview.uri.AuthorityContainmentMatcher;
-import dev.gerlot.securewebview.uri.DisallowedUriList;
+import dev.gerlot.securewebview.uri.UriList;
 import dev.gerlot.securewebview.uri.UriMatcher;
 import dev.gerlot.securewebview.uri.Uris;
 
@@ -37,19 +36,19 @@ public class SecureWebView extends FrameLayout {
     private boolean alwaysOpenPagesInWebView = false;
     private boolean allowFileAccess = false;
 
-    private AllowedUriList allowedUriList = null;
+    private UriList allowedUriList = null;
 
-    private DisallowedUriList disallowedUriList = null;
+    private UriList disallowedUriList = null;
 
     public void setAlwaysOpenPagesInWebView(boolean alwaysOpenPagesInWebView) {
         this.alwaysOpenPagesInWebView = alwaysOpenPagesInWebView;
     }
 
-    public void setAllowedUriList(AllowedUriList allowedUriList) {
+    public void setAllowedUriList(UriList allowedUriList) {
         this.allowedUriList = allowedUriList;
     }
 
-    public void setDisallowedUriList(DisallowedUriList disallowedUriList) {
+    public void setDisallowedUriList(UriList disallowedUriList) {
         this.disallowedUriList = disallowedUriList;
     }
 
@@ -172,7 +171,7 @@ public class SecureWebView extends FrameLayout {
         this.webView.getSettings().setAllowContentAccess(false);
         this.webView.setWebViewClient(new SecureWebViewClient());
 
-        this.disallowedUriList = new DisallowedUriList();
+        this.disallowedUriList = new UriList();
         addPopularSearchEnginesToDisallowedUriList();
         addAiChatBotsToDisallowedUriList();
     }
@@ -203,7 +202,7 @@ public class SecureWebView extends FrameLayout {
             return true;
         }
 
-        return disallowedUriList.matches(uri);
+        return disallowedUriList != null && disallowedUriList.matches(uri);
     }
 
     public void setWebViewClient(WebViewClient client) {
