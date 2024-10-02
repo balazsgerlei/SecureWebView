@@ -37,32 +37,32 @@ public class SecureWebView extends FrameLayout {
     private boolean alwaysOpenPagesInWebView = false;
     private boolean allowFileAccess = false;
 
-    private AllowedUriList allowedUrlList = null;
+    private AllowedUriList allowedUriList = null;
 
-    private DisallowedUriList disallowedUrlList = null;
+    private DisallowedUriList disallowedUriList = null;
 
     public void setAlwaysOpenPagesInWebView(boolean alwaysOpenPagesInWebView) {
         this.alwaysOpenPagesInWebView = alwaysOpenPagesInWebView;
     }
 
-    public void setAllowedUrlList(AllowedUriList allowedUrlList) {
-        this.allowedUrlList = allowedUrlList;
+    public void setAllowedUriList(AllowedUriList allowedUriList) {
+        this.allowedUriList = allowedUriList;
     }
 
-    public void setDisallowedUrlList(DisallowedUriList disallowedUrlList) {
-        this.disallowedUrlList = disallowedUrlList;
+    public void setDisallowedUriList(DisallowedUriList disallowedUriList) {
+        this.disallowedUriList = disallowedUriList;
     }
 
-    public void clearDeniedUrls() {
-        this.disallowedUrlList = null;
+    public void clearDisallowedUriList() {
+        this.disallowedUriList = null;
     }
 
-    public void deny(UriMatcher... denyList) {
-        this.disallowedUrlList.addAll(Arrays.asList(denyList));
+    public void disallowUris(UriMatcher... disallowedUriList) {
+        this.disallowedUriList.addAll(Arrays.asList(disallowedUriList));
     }
 
-    public void addPopularSearchEnginesToDenyList() {
-        deny(
+    public void addPopularSearchEnginesToDisallowedUriList() {
+        disallowUris(
                 new AuthorityAndPathMatcher(Uris.GOOGLE, false),
                 new AuthorityAndPathMatcher(Uris.GOOGLE_EMPTY_PATH, false),
                 new AuthorityContainmentMatcher(Uris.BING),
@@ -82,8 +82,8 @@ public class SecureWebView extends FrameLayout {
         );
     }
 
-    public void addAiChatBotsToDenyList() {
-        deny(
+    public void addAiChatBotsToDisallowedUriList() {
+        disallowUris(
                 new AuthorityContainmentMatcher(Uris.CHATGPT),
                 new AuthorityContainmentMatcher(Uris.COPILOT),
                 new AuthorityContainmentMatcher(Uris.GEMINI)
@@ -172,9 +172,9 @@ public class SecureWebView extends FrameLayout {
         this.webView.getSettings().setAllowContentAccess(false);
         this.webView.setWebViewClient(new SecureWebViewClient());
 
-        this.disallowedUrlList = new DisallowedUriList();
-        addPopularSearchEnginesToDenyList();
-        addAiChatBotsToDenyList();
+        this.disallowedUriList = new DisallowedUriList();
+        addPopularSearchEnginesToDisallowedUriList();
+        addAiChatBotsToDisallowedUriList();
     }
 
     private boolean shouldBlockRequest(final Uri uri) {
@@ -198,12 +198,12 @@ public class SecureWebView extends FrameLayout {
             return true;
         }
 
-        final boolean allowed = allowedUrlList == null || allowedUrlList.matches(uri);
+        final boolean allowed = allowedUriList == null || allowedUriList.matches(uri);
         if (!allowed) {
             return true;
         }
 
-        return disallowedUrlList.matches(uri);
+        return disallowedUriList.matches(uri);
     }
 
     public void setWebViewClient(WebViewClient client) {
