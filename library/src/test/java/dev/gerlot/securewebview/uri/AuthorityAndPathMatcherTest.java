@@ -1,4 +1,4 @@
-package dev.gerlot.securewebview.url;
+package dev.gerlot.securewebview.uri;
 
 import static org.junit.Assert.*;
 
@@ -9,10 +9,10 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
 @RunWith(RobolectricTestRunner.class)
-public class AuthorityWithoutWwwMatcherTest {
+public class AuthorityAndPathMatcherTest {
 
     public static final Uri GOOGLE = new Uri.Builder().authority("google.com").appendPath("search").build();
-    private static final UriMatcher MATCHER = new AuthorityWithoutWwwMatcher(GOOGLE);
+    private static final UriMatcher MATCHER = new AuthorityAndPathMatcher(GOOGLE);
 
     @Test
     public void testMatches_same() {
@@ -31,12 +31,19 @@ public class AuthorityWithoutWwwMatcherTest {
 
     @Test
     public void testMatches_differentPath() {
-        assertTrue(MATCHER.matches(new Uri.Builder().authority("google.com").appendPath("post").build()));
+        assertFalse(MATCHER.matches(new Uri.Builder().authority("google.com").appendPath("post").build()));
     }
 
     @Test
-    public void testMatches_wwwPrefix() {
-        assertTrue(MATCHER.matches(new Uri.Builder().authority("www.google.com").build()));
+    public void testMatches_withWwwPrefix() {
+        AuthorityAndPathMatcher matcher = new AuthorityAndPathMatcher(GOOGLE, true);
+        assertFalse(matcher.matches(new Uri.Builder().authority("www.google.com").appendPath("search").build()));
+    }
+
+    @Test
+    public void testMatches_withoutWwwPrefix() {
+        AuthorityAndPathMatcher matcher = new AuthorityAndPathMatcher(GOOGLE, false);
+        assertTrue(matcher.matches(new Uri.Builder().authority("www.google.com").appendPath("search").build()));
     }
 
 }

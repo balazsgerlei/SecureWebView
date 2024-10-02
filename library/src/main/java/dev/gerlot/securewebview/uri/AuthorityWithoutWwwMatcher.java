@@ -1,4 +1,4 @@
-package dev.gerlot.securewebview.url;
+package dev.gerlot.securewebview.uri;
 
 import android.net.Uri;
 
@@ -24,4 +24,3 @@ class AuthorityWithoutWwwMatcher implements UriMatcher {
     }
 
 }
-

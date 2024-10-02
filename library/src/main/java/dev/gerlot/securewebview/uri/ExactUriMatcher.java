@@ -1,20 +1,20 @@
-package dev.gerlot.securewebview.url;
+package dev.gerlot.securewebview.uri;
 
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
-public class BeginningMatcher implements UriMatcher {
+public class ExactUriMatcher implements UriMatcher {
 
     private final Uri mUri;
 
-    public BeginningMatcher(Uri uri) {
+    public ExactUriMatcher(Uri uri) {
         mUri = uri;
     }
 
     @Override
     public boolean matches(@NonNull Uri uri) {
-        return uri.toString().startsWith(mUri.toString());
+        return mUri.equals(uri);
     }
 
 }

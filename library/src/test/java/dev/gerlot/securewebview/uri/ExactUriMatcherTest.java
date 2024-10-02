@@ -1,6 +1,7 @@
-package dev.gerlot.securewebview.url;
+package dev.gerlot.securewebview.uri;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import android.net.Uri;
 
@@ -9,10 +10,10 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
 @RunWith(RobolectricTestRunner.class)
-public class AuthorityAndPathMatcherTest {
+public class ExactUriMatcherTest {
 
     public static final Uri GOOGLE = new Uri.Builder().authority("google.com").appendPath("search").build();
-    private static final UriMatcher MATCHER = new AuthorityAndPathMatcher(GOOGLE);
+    private static final UriMatcher MATCHER = new ExactUriMatcher(GOOGLE);
 
     @Test
     public void testMatches_same() {
@@ -32,18 +33,6 @@ public class AuthorityAndPathMatcherTest {
     @Test
     public void testMatches_differentPath() {
         assertFalse(MATCHER.matches(new Uri.Builder().authority("google.com").appendPath("post").build()));
-    }
-
-    @Test
-    public void testMatches_withWwwPrefix() {
-        AuthorityAndPathMatcher matcher = new AuthorityAndPathMatcher(GOOGLE, true);
-        assertFalse(matcher.matches(new Uri.Builder().authority("www.google.com").appendPath("search").build()));
-    }
-
-    @Test
-    public void testMatches_withoutWwwPrefix() {
-        AuthorityAndPathMatcher matcher = new AuthorityAndPathMatcher(GOOGLE, false);
-        assertTrue(matcher.matches(new Uri.Builder().authority("www.google.com").appendPath("search").build()));
     }
 
 }

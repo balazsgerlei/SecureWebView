@@ -1,6 +1,7 @@
-package dev.gerlot.securewebview.url;
+package dev.gerlot.securewebview.uri;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import android.net.Uri;
 
@@ -9,10 +10,10 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
 @RunWith(RobolectricTestRunner.class)
-public class BeginningMatcherTest {
+public class AuthorityContainmentMatcherTest {
 
     public static final Uri GOOGLE = new Uri.Builder().authority("google.com").appendPath("search").build();
-    private static final UriMatcher MATCHER = new BeginningMatcher(GOOGLE);
+    private static final UriMatcher MATCHER = new AuthorityContainmentMatcher(GOOGLE);
 
     @Test
     public void testMatches_same() {
@@ -31,7 +32,7 @@ public class BeginningMatcherTest {
 
     @Test
     public void testMatches_differentPath() {
-        assertFalse(MATCHER.matches(new Uri.Builder().authority("google.com").appendPath("post").build()));
+        assertTrue(MATCHER.matches(new Uri.Builder().authority("google.com").appendPath("post").build()));
     }
 
 }

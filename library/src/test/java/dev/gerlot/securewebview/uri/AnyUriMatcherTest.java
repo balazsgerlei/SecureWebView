@@ -1,4 +1,4 @@
-package dev.gerlot.securewebview.url;
+package dev.gerlot.securewebview.uri;
 
 import static org.junit.Assert.*;
 

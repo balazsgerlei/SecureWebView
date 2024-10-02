@@ -1,4 +1,4 @@
-package dev.gerlot.securewebview.url;
+package dev.gerlot.securewebview.uri;
 
 import java.util.AbstractList;
 import java.util.ArrayList;

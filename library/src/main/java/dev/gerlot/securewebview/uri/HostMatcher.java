@@ -1,4 +1,4 @@
-package dev.gerlot.securewebview.url;
+package dev.gerlot.securewebview.uri;
 
 import android.net.Uri;
 
@@ -6,17 +6,16 @@ import androidx.annotation.NonNull;
 
 import java.util.Objects;
 
-class AuthorityWithWwwMatcher implements UriMatcher {
+public class HostMatcher implements UriMatcher {
 
     private final Uri mUri;
 
-    public AuthorityWithWwwMatcher(Uri uri) {
+    public HostMatcher(Uri uri) {
         mUri = uri;
     }
 
     @Override
     public boolean matches(@NonNull Uri uri) {
-        return Objects.equals(mUri.getAuthority(), uri.getAuthority());
+        return Objects.equals(uri.getHost(), mUri.getHost());
     }
-
 }

@@ -20,12 +20,12 @@ import androidx.annotation.RequiresApi;
 
 import java.util.Arrays;
 
-import dev.gerlot.securewebview.url.AllowedUriList;
-import dev.gerlot.securewebview.url.AuthorityAndPathMatcher;
-import dev.gerlot.securewebview.url.AuthorityContainmentMatcher;
-import dev.gerlot.securewebview.url.DeniedUriList;
-import dev.gerlot.securewebview.url.UriMatcher;
-import dev.gerlot.securewebview.url.Uris;
+import dev.gerlot.securewebview.uri.AllowedUriList;
+import dev.gerlot.securewebview.uri.AuthorityAndPathMatcher;
+import dev.gerlot.securewebview.uri.AuthorityContainmentMatcher;
+import dev.gerlot.securewebview.uri.DeniedUriList;
+import dev.gerlot.securewebview.uri.UriMatcher;
+import dev.gerlot.securewebview.uri.Uris;
 
 public class SecureWebView extends FrameLayout {
 
