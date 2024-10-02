@@ -23,7 +23,7 @@ import java.util.Arrays;
 import dev.gerlot.securewebview.uri.AllowedUriList;
 import dev.gerlot.securewebview.uri.AuthorityAndPathMatcher;
 import dev.gerlot.securewebview.uri.AuthorityContainmentMatcher;
-import dev.gerlot.securewebview.uri.DeniedUriList;
+import dev.gerlot.securewebview.uri.DisallowedUriList;
 import dev.gerlot.securewebview.uri.UriMatcher;
 import dev.gerlot.securewebview.uri.Uris;
 
@@ -39,7 +39,7 @@ public class SecureWebView extends FrameLayout {
 
     private AllowedUriList allowedUrlList = null;
 
-    private DeniedUriList disallowedUrlList = null;
+    private DisallowedUriList disallowedUrlList = null;
 
     public void setAlwaysOpenPagesInWebView(boolean alwaysOpenPagesInWebView) {
         this.alwaysOpenPagesInWebView = alwaysOpenPagesInWebView;
@@ -49,7 +49,7 @@ public class SecureWebView extends FrameLayout {
         this.allowedUrlList = allowedUrlList;
     }
 
-    public void setDisallowedUrlList(DeniedUriList disallowedUrlList) {
+    public void setDisallowedUrlList(DisallowedUriList disallowedUrlList) {
         this.disallowedUrlList = disallowedUrlList;
     }
 
@@ -172,7 +172,7 @@ public class SecureWebView extends FrameLayout {
         this.webView.getSettings().setAllowContentAccess(false);
         this.webView.setWebViewClient(new SecureWebViewClient());
 
-        this.disallowedUrlList = new DeniedUriList();
+        this.disallowedUrlList = new DisallowedUriList();
         addPopularSearchEnginesToDenyList();
         addAiChatBotsToDenyList();
     }
