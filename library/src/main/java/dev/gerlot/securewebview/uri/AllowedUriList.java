@@ -25,13 +25,15 @@ public class AllowedUriList extends UriList implements UriMatcher {
 
     @Override
     public boolean matches(@NonNull Uri uri) {
+        boolean hasAnyMatches = false;
+
         for (UriMatcher matcher : mUriMatchers) {
             if (matcher.matches(uri)) {
-                return true;
+                hasAnyMatches = true;
             }
         }
 
-        return false;
+        return hasAnyMatches;
     }
 
 }
