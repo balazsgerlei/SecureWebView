@@ -25,12 +25,14 @@ public class DisallowedUriList extends UriList implements UriMatcher {
 
     @Override
     public boolean matches(@NonNull Uri uri) {
+        boolean hasAnyMatches = true;
+
         for (UriMatcher matcher : mUriMatchers) {
             if (matcher.matches(uri)) {
-                return false;
+                hasAnyMatches = false;
             }
         }
 
-        return true;
+        return hasAnyMatches;
     }
 }
