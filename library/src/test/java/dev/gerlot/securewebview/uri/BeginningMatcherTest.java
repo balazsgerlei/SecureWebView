@@ -34,4 +34,9 @@ public class BeginningMatcherTest {
         assertFalse(MATCHER.matches(new Uri.Builder().authority("google.com").appendPath("post").build()));
     }
 
+    @Test
+    public void testMatches_beginning() {
+        assertTrue(MATCHER.matches(new Uri.Builder().authority("google.com").appendPath("searchResult").appendQueryParameter("q", "foo").build()));
+    }
+
 }
