@@ -39,7 +39,7 @@ public class SecureWebView extends FrameLayout {
 
     private AllowedUrlList allowedUrlList = null;
 
-    private DeniedUrlList deniedUrlList = null;
+    private DeniedUrlList disallowedUrlList = null;
 
     public void setAlwaysOpenPagesInWebView(boolean alwaysOpenPagesInWebView) {
         this.alwaysOpenPagesInWebView = alwaysOpenPagesInWebView;
@@ -49,16 +49,16 @@ public class SecureWebView extends FrameLayout {
         this.allowedUrlList = allowedUrlList;
     }
 
-    public void setDeniedUrlList(DeniedUrlList deniedUrlList) {
-        this.deniedUrlList = deniedUrlList;
+    public void setDisallowedUrlList(DeniedUrlList disallowedUrlList) {
+        this.disallowedUrlList = disallowedUrlList;
     }
 
     public void clearDeniedUrls() {
-        this.deniedUrlList = null;
+        this.disallowedUrlList = null;
     }
 
     public void deny(UriMatcher... denyList) {
-        this.deniedUrlList.addAll(Arrays.asList(denyList));
+        this.disallowedUrlList.addAll(Arrays.asList(denyList));
     }
 
     public void addPopularSearchEnginesToDenyList() {
@@ -172,7 +172,7 @@ public class SecureWebView extends FrameLayout {
         this.webView.getSettings().setAllowContentAccess(false);
         this.webView.setWebViewClient(new SecureWebViewClient());
 
-        this.deniedUrlList = new DeniedUrlList();
+        this.disallowedUrlList = new DeniedUrlList();
         addPopularSearchEnginesToDenyList();
         addAiChatBotsToDenyList();
     }
@@ -203,7 +203,7 @@ public class SecureWebView extends FrameLayout {
             return true;
         }
 
-        return deniedUrlList.matches(uri);
+        return disallowedUrlList.matches(uri);
     }
 
     public void setWebViewClient(WebViewClient client) {
