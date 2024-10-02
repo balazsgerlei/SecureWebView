@@ -6,18 +6,18 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class UrlList extends AbstractList<UriMatcher> {
+public abstract class UriList extends AbstractList<UriMatcher> {
     protected final List<UriMatcher> mUriMatchers;
 
-    protected UrlList() {
+    protected UriList() {
         mUriMatchers = new ArrayList<>();
     }
 
-    protected UrlList(UriMatcher... matchers) {
+    protected UriList(UriMatcher... matchers) {
         mUriMatchers = Arrays.asList(matchers);
     }
 
-    protected UrlList(Collection<UriMatcher> matchers) {
+    protected UriList(Collection<UriMatcher> matchers) {
         mUriMatchers = new ArrayList<>(matchers);
     }
 

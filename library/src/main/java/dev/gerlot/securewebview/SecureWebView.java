@@ -20,10 +20,10 @@ import androidx.annotation.RequiresApi;
 
 import java.util.Arrays;
 
-import dev.gerlot.securewebview.url.AllowedUrlList;
+import dev.gerlot.securewebview.url.AllowedUriList;
 import dev.gerlot.securewebview.url.AuthorityAndPathMatcher;
 import dev.gerlot.securewebview.url.AuthorityContainmentMatcher;
-import dev.gerlot.securewebview.url.DeniedUrlList;
+import dev.gerlot.securewebview.url.DeniedUriList;
 import dev.gerlot.securewebview.url.UriMatcher;
 import dev.gerlot.securewebview.url.Uris;
 
@@ -37,19 +37,19 @@ public class SecureWebView extends FrameLayout {
     private boolean alwaysOpenPagesInWebView = false;
     private boolean allowFileAccess = false;
 
-    private AllowedUrlList allowedUrlList = null;
+    private AllowedUriList allowedUrlList = null;
 
-    private DeniedUrlList disallowedUrlList = null;
+    private DeniedUriList disallowedUrlList = null;
 
     public void setAlwaysOpenPagesInWebView(boolean alwaysOpenPagesInWebView) {
         this.alwaysOpenPagesInWebView = alwaysOpenPagesInWebView;
     }
 
-    public void setAllowedUrlList(AllowedUrlList allowedUrlList) {
+    public void setAllowedUrlList(AllowedUriList allowedUrlList) {
         this.allowedUrlList = allowedUrlList;
     }
 
-    public void setDisallowedUrlList(DeniedUrlList disallowedUrlList) {
+    public void setDisallowedUrlList(DeniedUriList disallowedUrlList) {
         this.disallowedUrlList = disallowedUrlList;
     }
 
@@ -172,7 +172,7 @@ public class SecureWebView extends FrameLayout {
         this.webView.getSettings().setAllowContentAccess(false);
         this.webView.setWebViewClient(new SecureWebViewClient());
 
-        this.disallowedUrlList = new DeniedUrlList();
+        this.disallowedUrlList = new DeniedUriList();
         addPopularSearchEnginesToDenyList();
         addAiChatBotsToDenyList();
     }

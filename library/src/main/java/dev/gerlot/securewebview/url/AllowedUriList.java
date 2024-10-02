@@ -9,17 +9,17 @@ import java.util.Collection;
 /**
  * An allowList of URLs which can be opened in the SecureWebView.
  */
-public class AllowedUrlList extends UrlList implements UriMatcher {
+public class AllowedUriList extends UriList implements UriMatcher {
 
-    public AllowedUrlList() {
+    public AllowedUriList() {
         super();
     }
 
-    public AllowedUrlList(UriMatcher... matchers) {
+    public AllowedUriList(UriMatcher... matchers) {
         super(matchers);
     }
 
-    public AllowedUrlList(Collection<UriMatcher> matchers) {
+    public AllowedUriList(Collection<UriMatcher> matchers) {
         super(matchers);
     }
 

@@ -9,17 +9,17 @@ import java.util.Collection;
 /**
  * A denyList of URLs. This will reject a match for any URL on the list, and permit all others.
  */
-public class DeniedUrlList extends UrlList implements UriMatcher {
+public class DeniedUriList extends UriList implements UriMatcher {
 
-    public DeniedUrlList() {
+    public DeniedUriList() {
         super();
     }
 
-    public DeniedUrlList(UriMatcher... matchers) {
+    public DeniedUriList(UriMatcher... matchers) {
         super(matchers);
     }
 
-    public DeniedUrlList(Collection<UriMatcher> matchers) {
+    public DeniedUriList(Collection<UriMatcher> matchers) {
         super(matchers);
     }
 
