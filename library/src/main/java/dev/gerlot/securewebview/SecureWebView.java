@@ -18,8 +18,13 @@ import android.widget.FrameLayout;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+
+import dev.gerlot.securewebview.uri.AuthorityAndPathMatcher;
+import dev.gerlot.securewebview.uri.AuthorityContainmentMatcher;
+import dev.gerlot.securewebview.uri.UriList;
+import dev.gerlot.securewebview.uri.UriMatcher;
+import dev.gerlot.securewebview.uri.Uris;
 
 public class SecureWebView extends FrameLayout {
 
@@ -31,107 +36,57 @@ public class SecureWebView extends FrameLayout {
     private boolean alwaysOpenPagesInWebView = false;
     private boolean allowFileAccess = false;
 
-    private List<String> allowedHosts = null;
+    private UriList allowedUriList = null;
 
-    private List<DisallowedUrl> disallowedUrls = new ArrayList<>();
+    private UriList disallowedUriList = null;
 
     public void setAlwaysOpenPagesInWebView(boolean alwaysOpenPagesInWebView) {
         this.alwaysOpenPagesInWebView = alwaysOpenPagesInWebView;
     }
 
-    public void setAllowedHosts(List<String> allowedHosts) {
-        this.allowedHosts = allowedHosts;
+    public void setAllowedUriList(UriList allowedUriList) {
+        this.allowedUriList = allowedUriList;
     }
 
-    public void setDisallowedUrls(List<DisallowedUrl> disallowedUrls) {
-        this.disallowedUrls = disallowedUrls;
+    public void setDisallowedUriList(UriList disallowedUriList) {
+        this.disallowedUriList = disallowedUriList;
     }
 
-    public void clearDisallowedUrls() {
-        this.disallowedUrls = null;
+    public void clearDisallowedUriList() {
+        this.disallowedUriList = null;
     }
 
-    public void addToDisallowedUrls(List<DisallowedUrl> disallowedUrls) {
-        this.disallowedUrls.addAll(disallowedUrls);
+    public void disallowUris(UriMatcher... disallowedUriList) {
+        this.disallowedUriList.addAll(Arrays.asList(disallowedUriList));
     }
 
-    public void addPopularSearchEnginesToDisallowedUrls() {
-        final List<DisallowedUrl> disallowedUrlList = new ArrayList<>();
-
-        disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("google.com").build(), MatchVariant.AUTHORITY_WITHOUT_WWW_AND_PATH));
-        disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("google.com").appendPath("").build(), MatchVariant.AUTHORITY_WITHOUT_WWW_AND_PATH));
-        disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("bing.com").build(), MatchVariant.AUTHORITY_CONTAIN));
-        disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("duckduckgo.com").build(), MatchVariant.AUTHORITY_CONTAIN));
-        disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("ecosia.org").build(), MatchVariant.AUTHORITY_CONTAIN));
-        disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("search.yahoo.com").build(), MatchVariant.AUTHORITY_CONTAIN));
-        disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("search.brave.com").build(), MatchVariant.AUTHORITY_CONTAIN));
-        disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("yep.com").build(), MatchVariant.AUTHORITY_CONTAIN));
-        disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("openverse.org").build(), MatchVariant.AUTHORITY_CONTAIN));
-        disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("startpage.com").build(), MatchVariant.AUTHORITY_CONTAIN));
-        disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("swisscows.com").build(), MatchVariant.AUTHORITY_CONTAIN));
-        disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("gibiru.com").build(), MatchVariant.AUTHORITY_CONTAIN));
-        disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("wiki.com").build(), MatchVariant.AUTHORITY_CONTAIN));
-        disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("dogpile.com").build(), MatchVariant.AUTHORITY_CONTAIN));
-        disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("startpage.com").build(), MatchVariant.AUTHORITY_CONTAIN));
-        disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("ask.com").build(), MatchVariant.AUTHORITY_CONTAIN));
-        disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("baidu.com").build(), MatchVariant.AUTHORITY_CONTAIN));
-
-        addToDisallowedUrls(disallowedUrlList);
+    public void addPopularSearchEnginesToDisallowedUriList() {
+        disallowUris(
+                new AuthorityAndPathMatcher(Uris.GOOGLE, false),
+                new AuthorityAndPathMatcher(Uris.GOOGLE_EMPTY_PATH, false),
+                new AuthorityContainmentMatcher(Uris.BING),
+                new AuthorityContainmentMatcher(Uris.DUCKDUCKGO),
+                new AuthorityContainmentMatcher(Uris.ECOSIA),
+                new AuthorityContainmentMatcher(Uris.YAHOO_SEARCH),
+                new AuthorityContainmentMatcher(Uris.BRAVE_SEARCH),
+                new AuthorityContainmentMatcher(Uris.YEP),
+                new AuthorityContainmentMatcher(Uris.OPENVERSE),
+                new AuthorityContainmentMatcher(Uris.STARTPAGE),
+                new AuthorityContainmentMatcher(Uris.SWISSCOWS),
+                new AuthorityContainmentMatcher(Uris.GIBIRU),
+                new AuthorityContainmentMatcher(Uris.WIKI),
+                new AuthorityContainmentMatcher(Uris.DOGPILE),
+                new AuthorityContainmentMatcher(Uris.ASK_DOT_COM),
+                new AuthorityContainmentMatcher(Uris.BAIDU)
+        );
     }
 
-    public void addAiChatBotsToDisallowedUrls() {
-        final List<DisallowedUrl> disallowedUrlList = new ArrayList<>();
-
-        disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("chatgpt.com").build(), MatchVariant.AUTHORITY_CONTAIN));
-        disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("copilot.microsoft.com").build(), MatchVariant.AUTHORITY_CONTAIN));
-        disallowedUrlList.add(new DisallowedUrl(new Uri.Builder().authority("gemini.google.com").build(), MatchVariant.AUTHORITY_CONTAIN));
-
-        addToDisallowedUrls(disallowedUrlList);
-    }
-
-    public enum MatchVariant {
-        FULL_URI, AUTHORITY, AUTHORITY_WITHOUT_WWW, AUTHORITY_AND_PATH, AUTHORITY_WITHOUT_WWW_AND_PATH, AUTHORITY_CONTAIN, HOST, BEGINNING
-    }
-
-    public static class DisallowedUrl {
-
-        private final Uri uri;
-
-        private final MatchVariant matchVariant;
-
-        public DisallowedUrl(final Uri uri, final MatchVariant matchVariant) {
-            this.uri = uri;
-            this.matchVariant = matchVariant;
-        }
-
-        public boolean matchesUri(final Uri uri) {
-            if (this.uri == null || uri == null) return false;
-
-            switch (matchVariant) {
-                case FULL_URI -> { return this.uri.equals(uri); }
-                case AUTHORITY, AUTHORITY_WITHOUT_WWW -> {
-                    final String disallowedAuthority = matchVariant == MatchVariant.AUTHORITY_WITHOUT_WWW ? trimAuthority(this.uri.getAuthority()) : this.uri.getAuthority();
-                    final String authorityToMatch = matchVariant == MatchVariant.AUTHORITY_WITHOUT_WWW ? trimAuthority(uri.getAuthority()) : uri.getAuthority();
-                    return disallowedAuthority != null && disallowedAuthority.equals(authorityToMatch);
-                }
-                case AUTHORITY_AND_PATH, AUTHORITY_WITHOUT_WWW_AND_PATH -> {
-                    final String disallowedAuthority = matchVariant == MatchVariant.AUTHORITY_WITHOUT_WWW_AND_PATH ? trimAuthority(this.uri.getAuthority()) : this.uri.getAuthority();
-                    final String authorityToMatch = matchVariant == MatchVariant.AUTHORITY_WITHOUT_WWW_AND_PATH ? trimAuthority(uri.getAuthority()) : uri.getAuthority();
-                    final boolean authoritiesEqual = disallowedAuthority != null && disallowedAuthority.equals(authorityToMatch);
-                    final boolean pathEqual = this.uri.getPath() != null && this.uri.getPath().equals(uri.getPath());
-                    return authoritiesEqual && (pathEqual || (this.uri.getPath() == null && uri.getPath() == null));
-                }
-                case AUTHORITY_CONTAIN -> { return uri.getAuthority() != null && this.uri.getAuthority() != null && uri.getAuthority().contains(this.uri.getAuthority()); }
-                case HOST -> { return uri.getHost() != null && uri.getHost().equals(this.uri.getHost()); }
-                case BEGINNING -> { return uri.toString().startsWith(this.uri.toString());  }
-                default -> { return false; }
-            }
-        }
-
-        private String trimAuthority(String authority) {
-            return authority != null ? authority.replace("www.", "") : null;
-        }
-
+    public void addAiChatBotsToDisallowedUriList() {
+        disallowUris(
+                new AuthorityContainmentMatcher(Uris.CHATGPT),
+                new AuthorityContainmentMatcher(Uris.COPILOT),
+                new AuthorityContainmentMatcher(Uris.GEMINI)
+        );
     }
 
     private class SecureWebViewClient extends WebViewClient {
@@ -216,9 +171,9 @@ public class SecureWebView extends FrameLayout {
         this.webView.getSettings().setAllowContentAccess(false);
         this.webView.setWebViewClient(new SecureWebViewClient());
 
-        this.disallowedUrls = new ArrayList<>();
-        addPopularSearchEnginesToDisallowedUrls();
-        addAiChatBotsToDisallowedUrls();
+        this.disallowedUriList = new UriList();
+        addPopularSearchEnginesToDisallowedUriList();
+        addAiChatBotsToDisallowedUriList();
     }
 
     private boolean shouldBlockRequest(final Uri uri) {
@@ -242,19 +197,12 @@ public class SecureWebView extends FrameLayout {
             return true;
         }
 
-        final boolean allowedByAllowedHostList = allowedHosts == null || allowedHosts.contains(uri.getHost());
-        if (!allowedByAllowedHostList) {
+        final boolean allowed = allowedUriList == null || allowedUriList.matches(uri);
+        if (!allowed) {
             return true;
         }
 
-        if (disallowedUrls != null) {
-            for (final DisallowedUrl disallowedUrl : disallowedUrls) {
-                if (disallowedUrl.matchesUri(uri)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return disallowedUriList != null && disallowedUriList.matches(uri);
     }
 
     public void setWebViewClient(WebViewClient client) {
