@@ -35,6 +35,7 @@ public class SecureWebView extends FrameLayout {
 
     private boolean alwaysOpenPagesInWebView = false;
     private boolean allowFileAccess = false;
+    private boolean allowLoadingDataUri = false;
 
     private UriList allowedUriList = null;
 
@@ -177,15 +178,11 @@ public class SecureWebView extends FrameLayout {
     }
 
     private boolean shouldBlockRequest(final Uri uri) {
-        return shouldBlockRequest(uri, true, false);
+        return shouldBlockRequest(uri, false);
     }
 
-    private boolean shouldBlockRequest(final Uri uri, boolean allowDataUri, boolean allowJavaScript) {
+    private boolean shouldBlockRequest(final Uri uri, boolean allowJavaScript) {
         if ("http".equals(uri.getScheme())) {
-            return true;
-        }
-
-        if (!allowDataUri && "data".equals(uri.getScheme())) {
             return true;
         }
 
@@ -194,6 +191,10 @@ public class SecureWebView extends FrameLayout {
         }
 
         if (!allowFileAccess && "file".equals(uri.getScheme())) {
+            return true;
+        }
+
+        if (!allowLoadingDataUri && "data".equals(uri.getScheme())) {
             return true;
         }
 
@@ -214,7 +215,7 @@ public class SecureWebView extends FrameLayout {
     }
 
     protected void loadUrl(String url, boolean allowJavaScript) {
-        if (shouldBlockRequest(Uri.parse(url), false, allowJavaScript)) {
+        if (shouldBlockRequest(Uri.parse(url), allowJavaScript)) {
             return;
         }
         webView.loadUrl(url);
@@ -247,6 +248,14 @@ public class SecureWebView extends FrameLayout {
 
     public boolean getAllowFileAccess() {
         return allowFileAccess;
+    }
+
+    public void setAllowLoadingDataUri(boolean allow) {
+        allowLoadingDataUri = allow;
+    }
+
+    public boolean getAllowLoadingDataUri() {
+        return allowLoadingDataUri;
     }
 
     public void setAllowContentAccess(boolean allow) {

@@ -16,6 +16,7 @@ import dev.gerlot.securewebview.sample.demos.BreakoutFragment
 import dev.gerlot.securewebview.sample.demos.ClearTextTrafficFragment
 import dev.gerlot.securewebview.sample.demos.ContentProviderAccessFragment
 import dev.gerlot.securewebview.sample.demos.FileAccessFragment
+import dev.gerlot.securewebview.sample.demos.JavaScriptBreakoutFragment
 import dev.gerlot.securewebview.sample.demos.JavaScriptInjectionFragment
 import dev.gerlot.securewebview.sample.demos.OpaqueOriginFragment
 
@@ -51,6 +52,7 @@ class MainFragment : Fragment() {
         binding.navigationView.setNavigationItemSelectedListener { menuItem ->
             when(menuItem.itemId) {
                 R.id.breakout -> showPage(BreakoutFragment.newInstance(), BreakoutFragment.TAG)
+                R.id.javascript_breakout -> showPage(JavaScriptBreakoutFragment.newInstance(), JavaScriptBreakoutFragment.TAG)
                 R.id.cleartexttraffic -> showPage(ClearTextTrafficFragment.newInstance(), ClearTextTrafficFragment.TAG)
                 R.id.file_access -> showPage(FileAccessFragment.newInstance(), FileAccessFragment.TAG)
                 R.id.content_provider_access -> showPage(ContentProviderAccessFragment.newInstance(), ContentProviderAccessFragment.TAG)

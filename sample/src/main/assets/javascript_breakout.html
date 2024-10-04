@@ -1,0 +1,19 @@
+<!-- Copyright 2018 Google LLC.
+SPDX-License-Identifier: Apache-2.0 -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Same-origin policy demo</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <div style="text-align: center;">
+      <button style="height:40px;font-size : 20px;" onclick="breakout()">Breakout!</button>
+    </div>
+    <script>
+        function breakout() {
+          window.location.replace("https://www.example.com/");
+        }
+    </script>
+  </body>
+</html>

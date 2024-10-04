@@ -65,11 +65,6 @@ class BreakoutFragment : Fragment(), SecurableWebViewFragment {
 
         }
         binding.secureWebView.javaScriptEnabled = true
-        //binding.secureWebView.setAllowedHosts(listOf("www.google.com", "maps.google.com", "consent.google.com"))
-        /*binding.secureWebView.setDisallowedUrls(listOf(
-            SecureWebView.DisallowedUrl(Uri.Builder().scheme("https").authority("google.com").build(), MatchVariant.AUTHORITY_WITHOUT_WWW_AND_PATH),
-            SecureWebView.DisallowedUrl(Uri.Builder().scheme("https").authority("google.com").appendPath("").build(), MatchVariant.AUTHORITY_WITHOUT_WWW_AND_PATH),
-        ))*/
         binding.secureWebView.setWebViewClient(object : WebViewClient() {
 
             override fun onPageFinished(view: WebView?, url: String?) {
