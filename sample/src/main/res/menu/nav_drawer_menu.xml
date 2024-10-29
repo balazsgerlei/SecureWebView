@@ -10,10 +10,13 @@
             android:title="@string/breakout"
             android:checked="true" />
         <item
+            android:id="@+id/javascript_breakout"
+            android:icon="@drawable/ic_js_breakout"
+            android:title="@string/javascript_breakout" />
+        <item
             android:id="@+id/cleartexttraffic"
             android:icon="@drawable/ic_http"
-            android:title="@string/clear_text_traffic"
-            android:checked="true" />
+            android:title="@string/clear_text_traffic" />
         <item
             android:id="@+id/file_access"
             android:icon="@drawable/ic_file"

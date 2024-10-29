@@ -11,6 +11,7 @@ import dev.gerlot.securewebview.sample.demos.BreakoutFragment
 import dev.gerlot.securewebview.sample.demos.ClearTextTrafficFragment
 import dev.gerlot.securewebview.sample.demos.ContentProviderAccessFragment
 import dev.gerlot.securewebview.sample.demos.FileAccessFragment
+import dev.gerlot.securewebview.sample.demos.JavaScriptBreakoutFragment
 import dev.gerlot.securewebview.sample.demos.JavaScriptInjectionFragment
 import dev.gerlot.securewebview.sample.demos.OpaqueOriginFragment
 
@@ -43,6 +44,9 @@ class InfoBottomSheetFragment: BottomSheetDialogFragment() {
             BreakoutFragment.TAG -> {
                 getString(R.string.breakout_demo)
             }
+            JavaScriptBreakoutFragment.TAG -> {
+                getString(R.string.javascript_breakout_demo)
+            }
             ClearTextTrafficFragment.TAG -> {
                 getString(R.string.clear_text_traffic_demo)
             }
@@ -66,6 +70,9 @@ class InfoBottomSheetFragment: BottomSheetDialogFragment() {
         val descriptionText: String = when(currentlyDisplayedFragmentTag) {
             BreakoutFragment.TAG -> {
                 getString(R.string.breakout_demo_description)
+            }
+            JavaScriptBreakoutFragment.TAG -> {
+                getString(R.string.javascript_breakout_demo_description)
             }
             ClearTextTrafficFragment.TAG -> {
                 getString(R.string.clear_text_traffic_demo_description)
