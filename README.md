@@ -28,7 +28,7 @@ Add it in your root `build.gradle` at the end of repositories:
 Step 2. Add the dependency
 
 	dependencies {
-	        implementation 'com.github.balazsgerlei:SecureWebView:1.0.0-alpha04'
+	        implementation 'com.github.balazsgerlei:SecureWebView:1.0.0-alpha05'
 	}
 
 
