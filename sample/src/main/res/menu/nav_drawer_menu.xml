@@ -11,7 +11,7 @@
             android:checked="true" />
         <item
             android:id="@+id/javascript_breakout"
-            android:icon="@drawable/ic_breakout"
+            android:icon="@drawable/ic_js_breakout"
             android:title="@string/javascript_breakout" />
         <item
             android:id="@+id/cleartexttraffic"
