@@ -39,6 +39,10 @@ class OpaqueOriginFragment: Fragment(), SecurableWebViewFragment {
         binding.insecureWebView.settings.javaScriptEnabled = true
         binding.secureWebView.javaScriptEnabled = true
 
+        // Due to how this demo is implemented (we load the initial HTML that contains
+        // the JavaScript that fetches the resource) we need to allow loading data URIs
+        binding.secureWebView.allowLoadingDataUri = true
+
         if (webViewSecureState == WebViewSecureState.INSECURE) {
             binding.viewFlipper.displayedChild = 0
         } else {
