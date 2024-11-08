@@ -229,8 +229,36 @@ public class SecureWebView extends FrameLayout {
         webView.evaluateJavascript(script, resultCallback);
     }
 
+    public void stopLoading() {
+        webView.stopLoading();
+    }
+
+    public void reload() {
+        webView.reload();
+    }
+
+    public boolean canGoBack() {
+        return webView.canGoBack();
+    }
+
     public void goBack() {
         webView.goBack();
+    }
+
+    public boolean canGoForward() {
+        return webView.canGoForward();
+    }
+
+    public void goForward() {
+        webView.goForward();
+    }
+
+    public boolean canGoBackOrForward(int steps) {
+        return webView.canGoBackOrForward(steps);
+    }
+
+    public void goBackOrForward(int steps) {
+        webView.goBackOrForward(steps);
     }
 
     public void setJavaScriptEnabled(boolean enabled) {
