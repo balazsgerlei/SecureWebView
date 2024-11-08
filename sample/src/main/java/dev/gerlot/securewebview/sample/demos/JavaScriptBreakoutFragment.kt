@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import dev.gerlot.securewebview.sample.SecurableWebViewFragment
 import dev.gerlot.securewebview.sample.WebViewSecureState
@@ -23,8 +24,23 @@ class JavaScriptBreakoutFragment: Fragment(), SecurableWebViewFragment {
 
     private var webViewSecureState = WebViewSecureState.INSECURE
 
-    //private var currentlyLoadedData: String? = null
     private var currentUrl: String? = null
+
+    private val onBackPressedCallback = object : OnBackPressedCallback(false) {
+
+        override fun handleOnBackPressed() {
+            if (webViewSecureState == WebViewSecureState.INSECURE) {
+                binding.insecureWebView.goBack()
+            } else {
+                binding.secureWebView.goBack()
+            }
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.onBackPressedDispatcher?.addCallback(this, onBackPressedCallback)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,6 +72,7 @@ class JavaScriptBreakoutFragment: Fragment(), SecurableWebViewFragment {
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 currentUrl = url
+                onBackPressedCallback.isEnabled = binding.insecureWebView.canGoBack()
                 super.onPageFinished(view, url)
             }
 
@@ -102,6 +119,7 @@ class JavaScriptBreakoutFragment: Fragment(), SecurableWebViewFragment {
             currentUrl?.let {
                 loadUrl(it)
             }
+            onBackPressedCallback.isEnabled = false
         }
     }
 
@@ -112,6 +130,7 @@ class JavaScriptBreakoutFragment: Fragment(), SecurableWebViewFragment {
             currentUrl?.let {
                 loadUrl(it)
             }
+            onBackPressedCallback.isEnabled = binding.insecureWebView.canGoBack()
         }
     }
 
