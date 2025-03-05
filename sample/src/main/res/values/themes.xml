@@ -1,6 +1,7 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.Material3.DayNight">
+        <item name="android:colorBackground">@color/lighter_grey</item>
         <item name="colorPrimary">@color/lighter_green</item>
         <item name="colorPrimaryVariant">@color/mid_green</item>
         <item name="colorPrimaryDark">@color/mid_green</item>
