@@ -1,0 +1,38 @@
+name: dependency-check
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'build.gradle'
+      - 'library/build.gradle'
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - 'build.gradle'
+      - 'library/build.gradle'
+  schedule:
+    # Runs at 12:00 UTC every Monday
+    - cron: '0 12 * * MON'
+
+jobs:
+  dependency_check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Run OWASP Dependency-Check Analysis
+      env:
+        NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+      run: ./gradlew :library:dependencyCheckAnalyze
+
+    - name: Upload Dependency Check Report Artifact
+      uses: actions/upload-artifact@v4
+      # Ensures the report is uploaded even if dependencyCheckAnalyze fails
+      if: always() 
+      with:
+        name: dependency-check-report
+        path: '**/library/build/reports/dependency-check/dependency-check-report.html' 
+        retention-days: 7
