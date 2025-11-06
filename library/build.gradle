@@ -28,6 +28,25 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 
+    dependencyCheck {
+        failBuildOnCVSS = 8.0
+
+        nvd {
+            apiKey = System.getenv('NVD_API_KEY')
+        }
+
+        scanConfigurations = [
+                'implementation',
+                'runtimeClasspath',
+                'api',
+                'releaseImplementation',
+                'releaseRuntimeClasspath',
+                'releaseApi'
+        ]
+
+        outputDirectory = "${layout.buildDirectory.get()}/reports/dependency-check"
+    }
+
     publishing {
         singleVariant("release") {
             withSourcesJar()

@@ -2,6 +2,6 @@
 plugins {
     id 'com.android.application' version '8.13.0' apply false
     id 'com.android.library' version '8.13.0' apply false
+    id 'org.owasp.dependencycheck' version '12.1.8' apply false
     id 'maven-publish'
-    id 'org.owasp.dependencycheck' version '10.0.2' apply false
 }
