@@ -22,6 +22,7 @@ public final class Uris {
     public static final Uri DOGPILE = new Uri.Builder().authority("dogpile.com").build();
     public static final Uri ASK_DOT_COM = new Uri.Builder().authority("ask.com").build();
     public static final Uri BAIDU = new Uri.Builder().authority("baidu.com").build();
+    public static final Uri KAGI = new Uri.Builder().authority("kagi.com").build();
 
     // endregion
 
