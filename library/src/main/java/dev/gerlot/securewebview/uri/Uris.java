@@ -37,6 +37,12 @@ public final class Uris {
     public static final Uri CHATGPT = new Uri.Builder().authority("chatgpt.com").build();
     public static final Uri COPILOT = new Uri.Builder().authority("copilot.microsoft.com").build();
     public static final Uri GEMINI = new Uri.Builder().authority("gemini.google.com").build();
+    public static final Uri CLAUDE = new Uri.Builder().authority("claude.ai").build();
+    public static final Uri PERPLEXITY = new Uri.Builder().authority("perplexity.ai").build();
+    public static final Uri GROK = new Uri.Builder().authority("grok.x.ai").build();
+    public static final Uri MISTRAL = new Uri.Builder().authority("chat.mistral.ai").build();
+    public static final Uri PI = new Uri.Builder().authority("pi.ai").build();
+    public static final Uri HUGGING_CHAT = new Uri.Builder().authority("huggingface.co").path("chat").build();
 
     // endregion
 
