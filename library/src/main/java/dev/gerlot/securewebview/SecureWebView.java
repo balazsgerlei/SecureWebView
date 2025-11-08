@@ -78,7 +78,14 @@ public class SecureWebView extends FrameLayout {
                 new AuthorityContainmentMatcher(Uris.WIKI),
                 new AuthorityContainmentMatcher(Uris.DOGPILE),
                 new AuthorityContainmentMatcher(Uris.ASK_DOT_COM),
-                new AuthorityContainmentMatcher(Uris.BAIDU)
+                new AuthorityContainmentMatcher(Uris.BAIDU),
+                new AuthorityContainmentMatcher(Uris.YANDEX),
+                new AuthorityContainmentMatcher(Uris.NAVER),
+                new AuthorityContainmentMatcher(Uris.SEZNAM),
+                new AuthorityContainmentMatcher(Uris.KAGI),
+                new AuthorityContainmentMatcher(Uris.QWANT),
+                new AuthorityContainmentMatcher(Uris.INFO_DOT_COM),
+                new AuthorityContainmentMatcher(Uris.YOU_DOT_COM)
         );
     }
 
