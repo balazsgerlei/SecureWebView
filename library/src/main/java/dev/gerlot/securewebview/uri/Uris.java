@@ -22,7 +22,13 @@ public final class Uris {
     public static final Uri DOGPILE = new Uri.Builder().authority("dogpile.com").build();
     public static final Uri ASK_DOT_COM = new Uri.Builder().authority("ask.com").build();
     public static final Uri BAIDU = new Uri.Builder().authority("baidu.com").build();
+    public static final Uri YANDEX = new Uri.Builder().authority("yandex.com").build();
+    public static final Uri NAVER = new Uri.Builder().authority("naver.com").build();
+    public static final Uri SEZNAM = new Uri.Builder().authority("seznam.com").build();
     public static final Uri KAGI = new Uri.Builder().authority("kagi.com").build();
+    public static final Uri QWANT = new Uri.Builder().authority("qwant.com").build();
+    public static final Uri INFO_DOT_COM = new Uri.Builder().authority("info.com").build();
+    public static final Uri YOU_DOT_COM = new Uri.Builder().authority("you.com").build();
 
     // endregion
 
