@@ -124,8 +124,21 @@ class FileAccessFragment : Fragment(), SecurableWebViewFragment {
 
         if (savedInstanceState == null) {
             loadUrlWithPermissionCheck(INITIAL_URI)
+        } else if (webViewSecureState == WebViewSecureState.INSECURE) {
+            binding.insecureWebView.restoreState(savedInstanceState)
+        } else {
+            binding.secureWebView.restoreState(savedInstanceState)
         }
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+    if (webViewSecureState == WebViewSecureState.INSECURE) {
+        binding.insecureWebView.saveState(outState)
+    } else {
+        binding.secureWebView.saveState(outState)
+    }
+    super.onSaveInstanceState(outState)
+}
 
     override fun onDestroyView() {
         super.onDestroyView()
