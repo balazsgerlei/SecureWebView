@@ -53,6 +53,10 @@ class OpaqueOriginFragment: Fragment(), SecurableWebViewFragment {
             val html = requireContext().assets.open("same_origin_test.html").bufferedReader().use(BufferedReader::readText)
             currentlyLoadedData = html
             loadData(html)
+        } else if (webViewSecureState == WebViewSecureState.INSECURE) {
+            binding.insecureWebView.restoreState(savedInstanceState)
+        } else {
+            binding.secureWebView.restoreState(savedInstanceState)
         }
     }
 
