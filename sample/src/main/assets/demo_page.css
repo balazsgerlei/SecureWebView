@@ -1,0 +1,36 @@
+/* General styles for light mode */
+body {
+  background-color: #ffffff;
+  color: #333;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.toggle-button {
+  background-color: #004d40;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Styles for dark mode */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #3a3a3a;
+    color: #e0e0e0;
+  }
+
+  .toggle-button {
+    background-color: #9fc6a1;
+    color: #000000;
+    height: 40px;
+    font-size: 20px;
+  }
+}

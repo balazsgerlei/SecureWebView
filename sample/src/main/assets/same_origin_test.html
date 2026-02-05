@@ -5,19 +5,23 @@ SPDX-License-Identifier: Apache-2.0 -->
   <head>
     <title>Same-origin policy demo</title>
     <meta charset="utf-8">
+    <meta name="color-scheme" content="light dark">
+    <link rel="stylesheet" type="text/css" href="demo_page.css">
   </head>
   <body>
-    <h1 id="fetch-status"></h1>
-    <script>
-      const status = document.getElementById('fetch-status');
-      
-      fetch('https://www.example.com')
-        .then(response => {
-          status.innerText = `Status: ${response.status}`;
-        })
-        .catch(error => {
-          status.innerText = error;
-        });
-    </script>
+    <div>
+      <h1 id="fetch-status"></h1>
+      <script>
+          const status = document.getElementById('fetch-status');
+
+          fetch('https://www.example.com')
+            .then(response => {
+              status.innerText = `Status: ${response.status}`;
+            })
+            .catch(error => {
+              status.innerText = error;
+            });
+      </script>
+    </div>
   </body>
 </html>

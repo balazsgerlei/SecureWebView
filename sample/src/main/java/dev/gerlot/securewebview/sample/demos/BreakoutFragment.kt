@@ -8,6 +8,9 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import dev.gerlot.securewebview.sample.SecurableWebViewFragment
 import dev.gerlot.securewebview.sample.WebViewSecureState
@@ -47,6 +50,12 @@ class BreakoutFragment : Fragment(), SecurableWebViewFragment {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.viewFlipper) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+            view.updatePadding(bottom = systemBars.bottom) // Only apply the bottom inset as padding
+            insets // Return the original insets so other views can use them
+        }
 
         binding.insecureWebView.settings.javaScriptEnabled = true
         binding.insecureWebView.webViewClient = object : WebViewClient() {

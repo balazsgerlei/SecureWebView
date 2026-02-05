@@ -3,12 +3,14 @@ SPDX-License-Identifier: Apache-2.0 -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Same-origin policy demo</title>
+    <title>JS Breakout demo</title>
     <meta charset="utf-8">
+    <meta name="color-scheme" content="light dark">
+    <link rel="stylesheet" type="text/css" href="demo_page.css">
   </head>
   <body>
     <div style="text-align: center;">
-      <button style="height:40px;font-size : 20px;" onclick="breakout()">Breakout!</button>
+      <button class="toggle-button" onclick="breakout()">Breakout!</button>
     </div>
     <script>
         function breakout() {
