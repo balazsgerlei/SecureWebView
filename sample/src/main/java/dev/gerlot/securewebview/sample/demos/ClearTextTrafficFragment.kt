@@ -103,13 +103,13 @@ class ClearTextTrafficFragment  : Fragment(), SecurableWebViewFragment {
         } else if (webViewSecureState == WebViewSecureState.INSECURE) {
             binding.insecureWebView.restoreState(savedInstanceState)
         } else {
-            binding.insecureWebView.restoreState(savedInstanceState)
+            binding.secureWebView.restoreState(savedInstanceState)
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         if (webViewSecureState == WebViewSecureState.INSECURE) {
-            binding.insecureWebView.saveState(outState);
+            binding.insecureWebView.saveState(outState)
         } else {
             binding.secureWebView.saveState(outState)
         }

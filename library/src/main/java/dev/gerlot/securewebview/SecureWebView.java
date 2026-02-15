@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
 import android.webkit.ValueCallback;
-import android.webkit.WebBackForwardList;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;

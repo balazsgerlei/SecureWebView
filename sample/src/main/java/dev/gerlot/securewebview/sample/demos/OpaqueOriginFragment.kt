@@ -60,6 +60,15 @@ class OpaqueOriginFragment: Fragment(), SecurableWebViewFragment {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        if (webViewSecureState == WebViewSecureState.INSECURE) {
+            binding.insecureWebView.saveState(outState)
+        } else {
+            binding.secureWebView.saveState(outState)
+        }
+        super.onSaveInstanceState(outState)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
