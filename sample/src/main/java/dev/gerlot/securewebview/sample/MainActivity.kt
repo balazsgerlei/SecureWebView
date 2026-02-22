@@ -4,12 +4,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import dev.gerlot.securewebview.sample.databinding.MainActivityBinding
 import dev.gerlot.securewebview.sample.demos.BreakoutFragment
@@ -74,6 +77,25 @@ class MainActivity : AppCompatActivity() {
         val toggle = ActionBarDrawerToggle(this, binding.drawerLayout, binding.appBar.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_closed)
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
+
+        val drawerBackCallback = object : OnBackPressedCallback(false) {
+            override fun handleOnBackPressed() {
+                binding.drawerLayout.closeDrawer(GravityCompat.START)
+            }
+        }
+        onBackPressedDispatcher.addCallback(this, drawerBackCallback)
+
+        binding.drawerLayout.addDrawerListener(object : DrawerLayout.SimpleDrawerListener() {
+            override fun onDrawerOpened(drawerView: View) {
+                // Intercept back press when the drawer is open
+                drawerBackCallback.isEnabled = true
+            }
+
+            override fun onDrawerClosed(drawerView: View) {
+                // Let the system or Fragment back stack handle back press when the drawer is closed
+                drawerBackCallback.isEnabled = false
+            }
+        })
 
         binding.navigationView.setNavigationItemSelectedListener { menuItem ->
             when(menuItem.itemId) {
