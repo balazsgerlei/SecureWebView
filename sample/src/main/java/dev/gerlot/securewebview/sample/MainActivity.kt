@@ -78,22 +78,15 @@ class MainActivity : AppCompatActivity() {
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        val defaultDrawerBackCallback = object : OnBackPressedCallback(false) {
-            override fun handleOnBackPressed() {
-                binding.drawerLayout.closeDrawer(GravityCompat.START)
-            }
-        }
-        onBackPressedDispatcher.addCallback(this, defaultDrawerBackCallback)
-
         binding.drawerLayout.addDrawerListener(object : DrawerLayout.SimpleDrawerListener() {
 
-            // We need another OnBackPressedCallback for the Drawer that is dynamically added
+            // We an OnBackPressedCallback for the Navigation Drawer that is dynamically added
             // and removed to have precedence over ones in Fragments
             private var dynamicDrawerCallback: OnBackPressedCallback? = null
 
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
-                // Add the OnBackPressedCallback for the Drawer as soon as the Drawer starts to open
-                // To override any callback in Fragments
+                // Add the OnBackPressedCallback for the Navigation Drawer as soon
+                // as the it starts to open to override any callback added in Fragments
                 if (slideOffset > 0 && dynamicDrawerCallback == null) {
                     dynamicDrawerCallback = object : OnBackPressedCallback(true) {
                         override fun handleOnBackPressed() {
@@ -105,15 +98,9 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onDrawerOpened(drawerView: View) {
-                // Intercept back press when the drawer is open
-                defaultDrawerBackCallback.isEnabled = true
-            }
-
             override fun onDrawerClosed(drawerView: View) {
-                // Let the system or Fragment back stack handle back press when the drawer is closed
-                defaultDrawerBackCallback.isEnabled = false
-                // Remove any dynamically added OnBackPressedCallback too
+                // Remove the dynamically added OnBackPressedCallback and let the system
+                // or Fragment back stack handle back press when the drawer is closed
                 dynamicDrawerCallback?.remove()
                 dynamicDrawerCallback = null
             }
