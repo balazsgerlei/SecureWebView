@@ -30,9 +30,21 @@ class JavaScriptBreakoutFragment: Fragment(), SecurableWebViewFragment {
 
         override fun handleOnBackPressed() {
             if (webViewSecureState == WebViewSecureState.INSECURE) {
-                binding.insecureWebView.goBack()
+                if (binding.insecureWebView.canGoBack()) {
+                    binding.insecureWebView.goBack()
+                } else {
+                    isEnabled = false
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                    isEnabled = true
+                }
             } else {
-                binding.secureWebView.goBack()
+                if (binding.secureWebView.canGoBack()) {
+                    binding.secureWebView.goBack()
+                } else {
+                    isEnabled = false
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                    isEnabled = true
+                }
             }
         }
     }
