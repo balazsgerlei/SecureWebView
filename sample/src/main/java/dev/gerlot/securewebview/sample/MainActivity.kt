@@ -4,12 +4,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import dev.gerlot.securewebview.sample.databinding.MainActivityBinding
 import dev.gerlot.securewebview.sample.demos.BreakoutFragment
@@ -74,6 +77,34 @@ class MainActivity : AppCompatActivity() {
         val toggle = ActionBarDrawerToggle(this, binding.drawerLayout, binding.appBar.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_closed)
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
+
+        binding.drawerLayout.addDrawerListener(object : DrawerLayout.SimpleDrawerListener() {
+
+            // We an OnBackPressedCallback for the Navigation Drawer that is dynamically added
+            // and removed to have precedence over ones in Fragments
+            private var dynamicDrawerCallback: OnBackPressedCallback? = null
+
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+                // Add the OnBackPressedCallback for the Navigation Drawer as soon
+                // as the it starts to open to override any callback added in Fragments
+                if (slideOffset > 0 && dynamicDrawerCallback == null) {
+                    dynamicDrawerCallback = object : OnBackPressedCallback(true) {
+                        override fun handleOnBackPressed() {
+                            binding.drawerLayout.closeDrawer(GravityCompat.START)
+                        }
+                    }.also {
+                        onBackPressedDispatcher.addCallback(this@MainActivity, it)
+                    }
+                }
+            }
+
+            override fun onDrawerClosed(drawerView: View) {
+                // Remove the dynamically added OnBackPressedCallback and let the system
+                // or Fragment back stack handle back press when the drawer is closed
+                dynamicDrawerCallback?.remove()
+                dynamicDrawerCallback = null
+            }
+        })
 
         binding.navigationView.setNavigationItemSelectedListener { menuItem ->
             when(menuItem.itemId) {

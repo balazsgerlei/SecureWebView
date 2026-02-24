@@ -26,20 +26,30 @@ class JavaScriptBreakoutFragment: Fragment(), SecurableWebViewFragment {
 
     private var currentUrl: String? = null
 
-    private val onBackPressedCallback = object : OnBackPressedCallback(false) {
-
-        override fun handleOnBackPressed() {
-            if (webViewSecureState == WebViewSecureState.INSECURE) {
-                binding.insecureWebView.goBack()
-            } else {
-                binding.secureWebView.goBack()
-            }
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activity?.onBackPressedDispatcher?.addCallback(this, onBackPressedCallback)
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                view ?: return
+                if (webViewSecureState == WebViewSecureState.INSECURE) {
+                    if (binding.insecureWebView.canGoBack()) {
+                        binding.insecureWebView.goBack()
+                    } else {
+                        isEnabled = false
+                        requireActivity().onBackPressedDispatcher.onBackPressed()
+                        isEnabled = true
+                    }
+                } else {
+                    if (binding.secureWebView.canGoBack()) {
+                        binding.secureWebView.goBack()
+                    } else {
+                        isEnabled = false
+                        requireActivity().onBackPressedDispatcher.onBackPressed()
+                        isEnabled = true
+                    }
+                }
+            }
+        })
     }
 
     override fun onCreateView(
@@ -72,7 +82,6 @@ class JavaScriptBreakoutFragment: Fragment(), SecurableWebViewFragment {
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 currentUrl = url
-                onBackPressedCallback.isEnabled = binding.insecureWebView.canGoBack()
                 super.onPageFinished(view, url)
             }
 
@@ -132,7 +141,6 @@ class JavaScriptBreakoutFragment: Fragment(), SecurableWebViewFragment {
             currentUrl?.let {
                 loadUrl(it)
             }
-            onBackPressedCallback.isEnabled = false
         }
     }
 
@@ -143,7 +151,6 @@ class JavaScriptBreakoutFragment: Fragment(), SecurableWebViewFragment {
             currentUrl?.let {
                 loadUrl(it)
             }
-            onBackPressedCallback.isEnabled = binding.insecureWebView.canGoBack()
         }
     }
 
