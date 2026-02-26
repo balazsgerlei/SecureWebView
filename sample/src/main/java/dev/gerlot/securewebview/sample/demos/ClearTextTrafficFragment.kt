@@ -168,7 +168,7 @@ class ClearTextTrafficFragment  : Fragment(), SecurableWebViewFragment {
 
     companion object {
 
-        private const val INITIAL_URL = "http://neverssl.com"
+        private const val INITIAL_URL = "http://httpforever.com/"
 
         val TAG: String = ClearTextTrafficFragment::class.java.canonicalName ?: ClearTextTrafficFragment::class.java.name
 
