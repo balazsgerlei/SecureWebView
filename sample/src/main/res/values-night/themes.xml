@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.Material3.DayNight">
+    <style name="Theme.SecureWebViewSample" parent="Theme.Material3.DayNight">
         <item name="colorPrimary">@color/light_green</item>
         <item name="colorPrimaryVariant">@color/black</item>
         <item name="colorOnPrimary">@color/lighter_grey</item>
@@ -13,5 +13,7 @@
         <item name="colorOnPrimaryContainer">@color/white</item>
         <item name="colorSecondaryContainer">@color/light_green</item>
         <item name="colorOnSecondaryContainer">@color/black</item>
+        <item name="elevationOverlayEnabled">false</item>
+        <item name="bottomAppBarStyle">@style/Widget.SecureWebViewSample.BottomAppBar</item>
     </style>
 </resources>
